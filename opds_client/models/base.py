@@ -64,12 +64,15 @@ class Link(BaseModel):
     type: Optional[str] = Field(default=None)
     templated: bool = Field(default=False)
     properties: Optional[PriceObject] = Field(default=None)
+    _url: Optional[str] = None
 
     @model_validator(mode="after")
     def validate_link(self) -> "Link":
         """Validate link requirements."""
         if self.templated:
-            href_str = str(self.href) if isinstance(self.href, AnyHttpUrl) else self.href
+            href_str = (
+                str(self.href) if isinstance(self.href, AnyHttpUrl) else self.href
+            )
             if not re.search(r"\{[^}]+\}", href_str):
                 raise ValueError("Templated links must contain URI template parameters")
         return self
@@ -162,7 +165,7 @@ class ImageLink(Link):
 class FacetLink(Link):
     """Link object for facet collections."""
 
-    properties: Optional[dict[str, Any]] = Field(default=None)
+    properties: Optional[dict[str, Any]] = Field(default=None)  # type: ignore[assignment]
 
     def is_active(self) -> bool:
         """Check if this facet link is currently active."""
@@ -174,6 +177,13 @@ class FacetLink(Link):
 
     def get_number_of_items(self) -> Optional[int]:
         """Get the numberOfItems from properties."""
-        if self.properties:
-            return self.properties.get("numberOfItems")
+        if self.properties and isinstance(self.properties, dict):
+            value = self.properties.get("numberOfItems")
+            if isinstance(value, int):
+                return value
+            if isinstance(value, str):
+                try:
+                    return int(value)
+                except ValueError:
+                    return None
         return None

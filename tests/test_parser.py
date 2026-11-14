@@ -15,13 +15,13 @@ class TestOPDSParser:
         """Test parsing valid OPDS feed JSON."""
         parser = OPDSParser()
 
-        feed_json = json.dumps({
-            "metadata": {"title": "Test Feed"},
-            "links": [{"rel": "self", "href": "https://example.com"}],
-            "navigation": [
-                {"href": "/nav", "title": "Navigation"}
-            ],
-        })
+        feed_json = json.dumps(
+            {
+                "metadata": {"title": "Test Feed"},
+                "links": [{"rel": "self", "href": "https://example.com"}],
+                "navigation": [{"href": "/nav", "title": "Navigation"}],
+            }
+        )
 
         feed = parser.parse(feed_json)
 
@@ -39,16 +39,18 @@ class TestOPDSParser:
         """Test parsing publication."""
         parser = OPDSParser()
 
-        pub_json = json.dumps({
-            "metadata": {
-                "title": "Test Book",
-                "identifier": "urn:isbn:1234567890",
-            },
-            "links": [
-                {"rel": "self", "href": "https://example.com"},
-                {"rel": "download", "href": "https://example.com/download.epub"},
-            ],
-        })
+        pub_json = json.dumps(
+            {
+                "metadata": {
+                    "title": "Test Book",
+                    "identifier": "urn:isbn:1234567890",
+                },
+                "links": [
+                    {"rel": "self", "href": "https://example.com"},
+                    {"rel": "download", "href": "https://example.com/download.epub"},
+                ],
+            }
+        )
 
         pub = parser.parse_publication(pub_json)
 
@@ -59,10 +61,12 @@ class TestOPDSParser:
         """Test strict mode raises validation error."""
         parser = OPDSParser(strict=True)
 
-        invalid_feed = json.dumps({
-            "metadata": {},  # Missing required title
-            "links": [{"rel": "self", "href": "https://example.com"}],
-        })
+        invalid_feed = json.dumps(
+            {
+                "metadata": {},  # Missing required title
+                "links": [{"rel": "self", "href": "https://example.com"}],
+            }
+        )
 
         with pytest.raises(OPDSValidationError):
             parser.parse(invalid_feed)
@@ -72,20 +76,25 @@ class TestOPDSParser:
         parser = OPDSParser(strict=False)
 
         # Feed with invalid navigation (missing title) but valid publications
-        invalid_feed = json.dumps({
-            "metadata": {"title": "Test"},
-            "links": [{"rel": "self", "href": "https://example.com"}],
-            "navigation": [{"href": "/nav"}],  # Missing title - invalid
-            "publications": [
-                {
-                    "metadata": {"title": "Book", "identifier": "urn:isbn:123"},
-                    "links": [
-                        {"rel": "self", "href": "https://example.com"},
-                        {"rel": "download", "href": "https://example.com/download.epub"},
-                    ],
-                }
-            ],
-        })
+        invalid_feed = json.dumps(
+            {
+                "metadata": {"title": "Test"},
+                "links": [{"rel": "self", "href": "https://example.com"}],
+                "navigation": [{"href": "/nav"}],  # Missing title - invalid
+                "publications": [
+                    {
+                        "metadata": {"title": "Book", "identifier": "urn:isbn:123"},
+                        "links": [
+                            {"rel": "self", "href": "https://example.com"},
+                            {
+                                "rel": "download",
+                                "href": "https://example.com/download.epub",
+                            },
+                        ],
+                    }
+                ],
+            }
+        )
 
         feed = parser.parse(invalid_feed)
 
@@ -99,30 +108,35 @@ class TestOPDSParser:
         """Test parsing feed with images."""
         parser = OPDSParser()
 
-        feed_json = json.dumps({
-            "metadata": {"title": "Test"},
-            "links": [{"rel": "self", "href": "https://example.com"}],
-            "publications": [
-                {
-                    "metadata": {
-                        "title": "Book",
-                        "identifier": "urn:isbn:123",
-                    },
-                    "links": [
-                        {"rel": "self", "href": "https://example.com"},
-                        {"rel": "download", "href": "https://example.com/download.epub"},
-                    ],
-                    "images": [
-                        {
-                            "href": "https://example.com/cover.jpg",
-                            "type": "image/jpeg",
-                            "height": 100,
-                            "width": 200,
-                        }
-                    ],
-                }
-            ],
-        })
+        feed_json = json.dumps(
+            {
+                "metadata": {"title": "Test"},
+                "links": [{"rel": "self", "href": "https://example.com"}],
+                "publications": [
+                    {
+                        "metadata": {
+                            "title": "Book",
+                            "identifier": "urn:isbn:123",
+                        },
+                        "links": [
+                            {"rel": "self", "href": "https://example.com"},
+                            {
+                                "rel": "download",
+                                "href": "https://example.com/download.epub",
+                            },
+                        ],
+                        "images": [
+                            {
+                                "href": "https://example.com/cover.jpg",
+                                "type": "image/jpeg",
+                                "height": 100,
+                                "width": 200,
+                            }
+                        ],
+                    }
+                ],
+            }
+        )
 
         feed = parser.parse(feed_json)
         assert feed.publications is not None
@@ -134,19 +148,21 @@ class TestOPDSParser:
         """Test parsing facets."""
         parser = OPDSParser()
 
-        feed_json = json.dumps({
-            "metadata": {"title": "Test"},
-            "links": [{"rel": "self", "href": "https://example.com"}],
-            "facets": [
-                {
-                    "metadata": {"title": "Filter"},
-                    "links": [
-                        {"href": "/f1", "title": "F1"},
-                        {"href": "/f2", "title": "F2"},
-                    ],
-                }
-            ],
-        })
+        feed_json = json.dumps(
+            {
+                "metadata": {"title": "Test"},
+                "links": [{"rel": "self", "href": "https://example.com"}],
+                "facets": [
+                    {
+                        "metadata": {"title": "Filter"},
+                        "links": [
+                            {"href": "/f1", "title": "F1"},
+                            {"href": "/f2", "title": "F2"},
+                        ],
+                    }
+                ],
+            }
+        )
 
         feed = parser.parse(feed_json)
         assert feed.has_facets() is True
@@ -156,18 +172,18 @@ class TestOPDSParser:
         """Test parsing groups."""
         parser = OPDSParser()
 
-        feed_json = json.dumps({
-            "metadata": {"title": "Test"},
-            "links": [{"rel": "self", "href": "https://example.com"}],
-            "groups": [
-                {
-                    "metadata": {"title": "Group"},
-                    "navigation": [
-                        {"href": "/nav", "title": "Nav"}
-                    ],
-                }
-            ],
-        })
+        feed_json = json.dumps(
+            {
+                "metadata": {"title": "Test"},
+                "links": [{"rel": "self", "href": "https://example.com"}],
+                "groups": [
+                    {
+                        "metadata": {"title": "Group"},
+                        "navigation": [{"href": "/nav", "title": "Nav"}],
+                    }
+                ],
+            }
+        )
 
         feed = parser.parse(feed_json)
         assert feed.has_groups() is True

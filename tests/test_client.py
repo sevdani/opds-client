@@ -60,6 +60,7 @@ class TestURITemplateResolver:
     def test_is_uri_template(self):
         """Test detecting URI templates."""
         from opds_client.utils import is_uri_template
+
         assert is_uri_template("https://example.com/search{?query}")
         assert not is_uri_template("https://example.com/search")
 
@@ -151,9 +152,7 @@ class TestAcquisitionLinkModel:
             href="https://example.com/buy",
             rel="buy",
             type="application/epub+zip",
-            properties={
-                "price": {"currency": "USD", "value": 9.99}
-            },
+            properties={"price": {"currency": "USD", "value": 9.99}},
         )
         assert link.rel == "buy"
         assert link.is_open_access() is False
@@ -422,9 +421,7 @@ class TestOPDSClient:
         feed_data = {
             "metadata": {"title": "Feed without search"},
             "links": [{"rel": "self", "href": "https://example.com"}],
-            "navigation": [
-                {"href": "https://example.com/nav", "title": "Navigation"}
-            ],
+            "navigation": [{"href": "https://example.com/nav", "title": "Navigation"}],
         }
         feed = parser.parse_dict(feed_data)
 
@@ -461,9 +458,7 @@ class TestOPDSClient:
         feed_data = {
             "metadata": {"title": "Feed without navigation"},
             "links": [{"rel": "self", "href": "https://example.com"}],
-            "navigation": [
-                {"href": "https://example.com/nav", "title": "Other"}
-            ],
+            "navigation": [{"href": "https://example.com/nav", "title": "Other"}],
         }
         feed = parser.parse_dict(feed_data)
 
@@ -519,17 +514,18 @@ class TestOPDSClient:
 
     def test_origin_with_relative_url(self):
         """Test origin parameter with relative URL."""
-        from opds_client.parser import OPDSParser
         import json
 
-        parser = OPDSParser()
+        from opds_client.parser import OPDSParser
+
+        OPDSParser()
         feed_data = {
             "metadata": {"title": "Test"},
             "links": [{"rel": "self", "href": "/opds"}],
-            "navigation": [{"href": "/nav", "title": "Nav", "type": "application/opds+json"}],
+            "navigation": [
+                {"href": "/nav", "title": "Nav", "type": "application/opds+json"}
+            ],
         }
-        feed = parser.parse_dict(feed_data)
-
         with patch("requests.Session.get") as mock_get:
             mock_response = Mock()
             mock_response.text = json.dumps(feed_data)
@@ -537,24 +533,25 @@ class TestOPDSClient:
             mock_get.return_value = mock_response
 
             client = OPDSClient(origin="https://example.com")
-            result = client.fetch_feed("/catalog")
+            client.fetch_feed("/catalog")
 
             called_url = mock_get.call_args[0][0]
             assert called_url == "https://example.com/catalog"
 
     def test_origin_with_absolute_url(self):
         """Test origin parameter with absolute URL (should not merge)."""
-        from opds_client.parser import OPDSParser
         import json
 
-        parser = OPDSParser()
+        from opds_client.parser import OPDSParser
+
+        OPDSParser()
         feed_data = {
             "metadata": {"title": "Test"},
             "links": [{"rel": "self", "href": "/opds"}],
-            "navigation": [{"href": "/nav", "title": "Nav", "type": "application/opds+json"}],
+            "navigation": [
+                {"href": "/nav", "title": "Nav", "type": "application/opds+json"}
+            ],
         }
-        feed = parser.parse_dict(feed_data)
-
         with patch("requests.Session.get") as mock_get:
             mock_response = Mock()
             mock_response.text = json.dumps(feed_data)
@@ -562,24 +559,25 @@ class TestOPDSClient:
             mock_get.return_value = mock_response
 
             client = OPDSClient(origin="https://example.com")
-            result = client.fetch_feed("https://other.com/catalog")
+            client.fetch_feed("https://other.com/catalog")
 
             called_url = mock_get.call_args[0][0]
             assert called_url == "https://other.com/catalog"
 
     def test_origin_without_parameter(self):
         """Test client without origin parameter (should use URLs as-is)."""
-        from opds_client.parser import OPDSParser
         import json
 
-        parser = OPDSParser()
+        from opds_client.parser import OPDSParser
+
+        OPDSParser()
         feed_data = {
             "metadata": {"title": "Test"},
             "links": [{"rel": "self", "href": "/opds"}],
-            "navigation": [{"href": "/nav", "title": "Nav", "type": "application/opds+json"}],
+            "navigation": [
+                {"href": "/nav", "title": "Nav", "type": "application/opds+json"}
+            ],
         }
-        feed = parser.parse_dict(feed_data)
-
         with patch("requests.Session.get") as mock_get:
             mock_response = Mock()
             mock_response.text = json.dumps(feed_data)
@@ -587,7 +585,7 @@ class TestOPDSClient:
             mock_get.return_value = mock_response
 
             client = OPDSClient()
-            result = client.fetch_feed("/catalog")
+            client.fetch_feed("/catalog")
 
             called_url = mock_get.call_args[0][0]
             assert called_url == "/catalog"

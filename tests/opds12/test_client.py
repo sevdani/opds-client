@@ -157,7 +157,7 @@ class TestOPDS12Client:
         mock_get.return_value = mock_response
 
         client = OPDS12Client(origin="https://api.example.com")
-        feed = client.fetch_feed("/catalog.xml")
+        client.fetch_feed("/catalog.xml")
 
         called_url = mock_get.call_args[0][0]
         assert called_url == "https://api.example.com/catalog.xml"
@@ -174,7 +174,7 @@ class TestOPDS12Client:
         mock_get.return_value = mock_response
 
         client = OPDS12Client(origin="https://api.example.com")
-        feed = client.fetch_feed("https://other.com/catalog.xml")
+        client.fetch_feed("https://other.com/catalog.xml")
 
         called_url = mock_get.call_args[0][0]
         assert called_url == "https://other.com/catalog.xml"
@@ -191,7 +191,7 @@ class TestOPDS12Client:
         mock_get.return_value = mock_response
 
         client = OPDS12Client()
-        feed = client.fetch_feed("/catalog.xml")
+        client.fetch_feed("/catalog.xml")
 
         called_url = mock_get.call_args[0][0]
         assert called_url == "/catalog.xml"

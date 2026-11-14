@@ -116,9 +116,7 @@ class TestOPDSClientIntegration:
         feed_data = {
             "metadata": {"title": "Feed without search"},
             "links": [{"rel": "self", "href": "https://example.com"}],
-            "navigation": [
-                {"href": "https://example.com/nav", "title": "Navigation"}
-            ],
+            "navigation": [{"href": "https://example.com/nav", "title": "Navigation"}],
         }
         feed = parser.parse_dict(feed_data)
 
@@ -239,9 +237,7 @@ class TestOPDSClientIntegration:
         feed_data = {
             "metadata": {"title": "Feed without navigation"},
             "links": [{"rel": "self", "href": "https://example.com"}],
-            "navigation": [
-                {"href": "https://example.com/nav", "title": "Other"}
-            ],
+            "navigation": [{"href": "https://example.com/nav", "title": "Other"}],
         }
         feed = parser.parse_dict(feed_data)
 
