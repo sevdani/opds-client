@@ -1,0 +1,83 @@
+{
+  "metadata": {
+    "@type": "http://schema.org/Book",
+    "title": "Test Publication",
+    "author": {
+      "name": "Test Author",
+      "identifier": "http://isni.org/isni/0000000121400562",
+      "sortAs": "Author, Test",
+      "links": [
+        {
+          "href": "https://example.com/author/123",
+          "type": "application/opds+json"
+        }
+      ]
+    },
+    "identifier": "urn:isbn:9780000000000",
+    "language": "en",
+    "modified": "2024-01-15T10:30:00Z",
+    "description": "A test publication for testing purposes",
+    "publisher": "Test Publisher",
+    "series": {
+      "name": "Test Series",
+      "position": 1,
+      "links": [
+        {
+          "href": "https://example.com/series/1",
+          "type": "application/opds+json"
+        }
+      ]
+    },
+    "collection": "Test Collection"
+  },
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://example.com/publication/test",
+      "type": "application/opds-publication+json"
+    },
+    {
+      "rel": "download",
+      "href": "https://example.com/files/test.epub",
+      "type": "application/epub+zip"
+    },
+    {
+      "rel": "alternate",
+      "href": "https://example.com/files/test.pdf",
+      "type": "application/pdf"
+    }
+  ],
+  "images": [
+    {
+      "href": "https://example.com/images/test-cover-large.jpg",
+      "type": "image/jpeg",
+      "height": 1600,
+      "width": 1000
+    },
+    {
+      "href": "https://example.com/images/test-cover-small.jpg",
+      "type": "image/jpeg",
+      "height": 800,
+      "width": 500
+    }
+  ],
+  "readingOrder": [
+    {
+      "href": "https://example.com/files/chapter1.html",
+      "title": "Chapter 1",
+      "type": "text/html"
+    },
+    {
+      "href": "https://example.com/files/chapter2.html",
+      "title": "Chapter 2",
+      "type": "text/html"
+    }
+  ],
+  "toc": [
+    {
+      "href": "https://example.com/files/toc.html",
+      "title": "Table of Contents",
+      "type": "text/html"
+    }
+  ]
+}

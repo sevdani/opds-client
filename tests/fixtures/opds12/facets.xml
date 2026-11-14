@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:dc="http://purl.org/dc/terms/"
+      xmlns:opds="http://opds-spec.org/2010/catalog"
+      xmlns:thr="http://purl.org/syndication/thread/1.0">
+
+  <id>urn:uuid:facets-test</id>
+  <link rel="self"  
+        href="/opds-catalogs/facets.xml"
+        type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+  <title>Facets Test Feed</title>
+  <updated>2010-01-10T10:03:10Z</updated>
+  <author>
+    <name>Test Author</name>
+  </author>
+
+  <link rel="http://opds-spec.org/facet" 
+        href="/sci-fi" 
+        title="Science-Fiction" 
+        opds:facetGroup="Categories" 
+        opds:activeFacet="true"/>
+ 
+  <link rel="http://opds-spec.org/facet" 
+        href="/romance" 
+        title="Romance"  
+        opds:facetGroup="Categories" 
+        thr:count="600"/>
+ 
+  <link rel="http://opds-spec.org/facet" 
+        href="/thrillers" 
+        title="Thrillers"  
+        opds:facetGroup="Categories" 
+        thr:count="1200"/>
+ 
+  <link rel="http://opds-spec.org/facet" 
+        href="/sci-fi/english" 
+        title="English" 
+        opds:facetGroup="Language" 
+        opds:activeFacet="true"/>
+ 
+  <link rel="http://opds-spec.org/facet" 
+        href="/sci-fi/french" 
+        title="French"  
+        opds:facetGroup="Language" 
+        thr:count="40"/>
+  
+  <entry>
+    <title>Test Publication</title>
+    <id>urn:uuid:test-1</id>
+    <updated>2010-01-10T10:01:00Z</updated>
+    <author>
+      <name>Test Author</name>
+    </author>
+    <dc:language>en</dc:language>
+    <dc:issued>2010-01-01</dc:issued>
+    <link rel="http://opds-spec.org/acquisition"
+          href="/content/free/test.epub"
+          type="application/epub+zip"/>
+  </entry>
+</feed>

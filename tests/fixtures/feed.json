@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "title": "Test OPDS Feed",
+    "identifier": "urn:uuid:test-feed",
+    "modified": "2024-01-15T10:30:00Z"
+  },
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://example.com/opds/feed",
+      "type": "application/opds+json"
+    },
+    {
+      "rel": "search",
+      "href": "https://example.com/search{?query,title,author}",
+      "type": "application/opds+json",
+      "templated": true
+    },
+    {
+      "rel": "first",
+      "href": "https://example.com/opds/feed?page=1",
+      "type": "application/opds+json"
+    },
+    {
+      "rel": "previous",
+      "href": "https://example.com/opds/feed?page=1",
+      "type": "application/opds+json"
+    },
+    {
+      "rel": "next",
+      "href": "https://example.com/opds/feed?page=3",
+      "type": "application/opds+json"
+    },
+    {
+      "rel": "last",
+      "href": "https://example.com/opds/feed?page=5",
+      "type": "application/opds+json"
+    }
+  ],
+  "navigation": [
+    {
+      "href": "/new",
+      "title": "New Publications",
+      "type": "application/opds+json"
+    },
+    {
+      "href": "/popular",
+      "title": "Popular Publications",
+      "type": "application/opds+json"
+    },
+    {
+      "href": "/categories",
+      "title": "Categories",
+      "type": "application/opds+json"
+    }
+  ],
+  "publications": [
+    {
+      "metadata": {
+        "@type": "http://schema.org/Book",
+        "title": "Test Book 1",
+        "author": "Test Author",
+        "identifier": "urn:isbn:9780000000001",
+        "language": "en",
+        "modified": "2024-01-10T12:00:00Z",
+        "description": "A test publication"
+      },
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://example.com/publication/1",
+          "type": "application/opds-publication+json"
+        },
+        {
+          "rel": "download",
+          "href": "https://example.com/files/book1.epub",
+          "type": "application/epub+zip"
+        }
+      ],
+      "images": [
+        {
+          "href": "https://example.com/images/book1-cover.jpg",
+          "type": "image/jpeg",
+          "height": 1400,
+          "width": 800
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "@type": "http://schema.org/EBook",
+        "title": "Test Book 2",
+        "author": "Another Author",
+        "identifier": "urn:isbn:9780000000002",
+        "language": "en",
+        "modified": "2024-01-11T14:00:00Z"
+      },
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://example.com/publication/2",
+          "type": "application/opds-publication+json"
+        },
+        {
+          "rel": "buy",
+          "href": "https://example.com/buy/book2",
+          "type": "application/epub+zip",
+          "properties": {
+            "price": {
+              "currency": "USD",
+              "value": 9.99
+            }
+          }
+        }
+      ],
+      "images": [
+        {
+          "href": "https://example.com/images/book2-cover.jpg",
+          "type": "image/jpeg",
+          "height": 1200,
+          "width": 700
+        }
+      ]
+    }
+  ],
+  "facets": [
+    {
+      "metadata": {
+        "title": "Language"
+      },
+      "links": [
+        {
+          "href": "/lang/en",
+          "title": "English",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 40
+          }
+        },
+        {
+          "href": "/lang/fr",
+          "title": "French",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 10
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "title": "Price"
+      },
+      "links": [
+        {
+          "href": "/price/free",
+          "title": "Free",
+          "type": "application/opds+json"
+        },
+        {
+          "href": "/price/paid",
+          "title": "Paid",
+          "type": "application/opds+json"
+        }
+      ]
+    }
+  ]
+}

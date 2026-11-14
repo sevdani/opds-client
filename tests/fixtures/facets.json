@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "title": "Facet Group Test",
+    "numberOfItems": 100,
+    "itemsPerPage": 20,
+    "currentPage": 1
+  },
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://example.com/opds/facets",
+      "type": "application/opds+json"
+    }
+  ],
+  "facets": [
+    {
+      "metadata": {
+        "title": "Sort By"
+      },
+      "links": [
+        {
+          "href": "/sort/title",
+          "title": "Title",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 50
+          }
+        },
+        {
+          "href": "/sort/author",
+          "title": "Author",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 50
+          }
+        },
+        {
+          "href": "/sort/date",
+          "title": "Date",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 50
+          },
+          "rel": "self"
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "title": "Availability"
+      },
+      "links": [
+        {
+          "href": "/available/all",
+          "title": "All",
+          "type": "application/opds+json"
+        },
+        {
+          "href": "/available/now",
+          "title": "Available Now",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 30
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "title": "Format"
+      },
+      "links": [
+        {
+          "href": "/format/epub",
+          "title": "EPUB",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 40
+          }
+        },
+        {
+          "href": "/format/pdf",
+          "title": "PDF",
+          "type": "application/opds+json",
+          "properties": {
+            "numberOfItems": 20
+          }
+        }
+      ]
+    }
+  ]
+}

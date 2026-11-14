@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "title": "Grouped Feed Test",
+    "numberOfItems": 50
+  },
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://example.com/opds/grouped",
+      "type": "application/opds+json"
+    }
+  ],
+  "groups": [
+    {
+      "metadata": {
+        "title": "Featured Books",
+        "numberOfItems": 20
+      },
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://example.com/opds/featured",
+          "type": "application/opds+json"
+        }
+      ],
+      "publications": [
+        {
+          "metadata": {
+            "@type": "http://schema.org/Book",
+            "title": "Featured Book 1",
+            "author": "Featured Author",
+            "identifier": "urn:isbn:9780000000010",
+            "language": "en",
+            "modified": "2024-01-15T08:00:00Z"
+          },
+          "links": [
+            {
+              "rel": "self",
+              "href": "https://example.com/publication/featured/1",
+              "type": "application/opds-publication+json"
+            },
+            {
+              "rel": "download",
+              "href": "https://example.com/files/featured1.epub",
+              "type": "application/epub+zip"
+            }
+          ],
+          "images": [
+            {
+              "href": "https://example.com/images/featured1.jpg",
+              "type": "image/jpeg",
+              "height": 1500,
+              "width": 900
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "title": "New Arrivals"
+      },
+      "navigation": [
+        {
+          "href": "/new",
+          "title": "New Publications",
+          "type": "application/opds+json"
+        },
+        {
+          "href": "/new-fiction",
+          "title": "New Fiction",
+          "type": "application/opds+json"
+        },
+        {
+          "href": "/new-nonfiction",
+          "title": "New Non-Fiction",
+          "type": "application/opds+json"
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "title": "Popular Collections"
+      },
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://example.com/opds/popular",
+          "type": "application/opds+json"
+        }
+      ],
+      "publications": [
+        {
+          "metadata": {
+            "@type": "http://schema.org/EBook",
+            "title": "Popular Book 1",
+            "author": "Popular Author",
+            "identifier": "urn:isbn:9780000000020",
+            "language": "en",
+            "modified": "2024-01-14T10:00:00Z"
+          },
+          "links": [
+            {
+              "rel": "self",
+              "href": "https://example.com/publication/popular/1",
+              "type": "application/opds-publication+json"
+            },
+            {
+              "rel": "buy",
+              "href": "https://example.com/buy/popular1",
+              "type": "application/epub+zip",
+              "properties": {
+                "price": {
+                  "currency": "USD",
+                  "value": 14.99
+                }
+              }
+            }
+          ],
+          "images": [
+            {
+              "href": "https://example.com/images/popular1.jpg",
+              "type": "image/jpeg",
+              "height": 1300,
+              "width": 800
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

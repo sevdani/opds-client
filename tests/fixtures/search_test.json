@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "title": "Test Publication with Search Parameters",
+    "identifier": "urn:isbn:9780000000003",
+    "language": "en"
+  },
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://example.com/publication/search-test",
+      "type": "application/opds-publication+json"
+    },
+    {
+      "rel": "download",
+      "href": "https://example.com/files/search-test.epub",
+      "type": "application/epub+zip"
+    }
+  ],
+  "images": [
+    {
+      "href": "https://example.com/images/search-test.jpg",
+      "type": "image/jpeg",
+      "height": 1100,
+      "width": 700
+    }
+  ]
+}

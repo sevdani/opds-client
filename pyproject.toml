@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opds-client"
+version = "1.0.0"
+description = "OPDS 2.0 Client Library for Python"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "OPDS Client Authors"},
+]
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.28.0",
+    "pydantic>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/sevdani/opds-client"
+Issues = "https://github.com/sevdani/opds-client/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.0.292",
+    "mypy>=1.0.0",
+]
+release = [
+    "python-semantic-release>=10.0.0",
+    "build>=1.0.0",
+]
+
+[tool.setuptools]
+packages = ["opds_client", "opds_client.models"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+select = ["E", "F", "W", "I"]
+ignore = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "-v --cov=opds_client --cov-report=term-missing"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unreachable = true
+strict_equality = true
+strict_concatenate = true
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+build_command = "python -m build --sdist --wheel ."
+changelog_file = "CHANGELOG.md"
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = [
+    '''chore(?:\([^)]*?\))?: .+''',
+    '''ci(?:\([^)]*?\))?: .+''',
+    '''refactor(?:\([^)]*?\))?: .+''',
+    '''test(?:\([^)]*?\))?: .+''',
+    '''docs(?:\([^)]*?\))?: .+''',
+]
+
+[tool.semantic_release.branches.main]
+match = "main"
+prerelease = false
+
+[tool.semantic_release.branches.alpha]
+match = "^(feat|fix|perf)/.+"
+prerelease = true
+prerelease_token = "alpha"
