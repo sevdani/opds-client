@@ -1,9 +1,13 @@
 # OPDS Client
 
-[![CI - Mainline](https://github.com/sevdani/opds-client/actions/workflows/mainline.yml/badge.svg)](https://github.com/sevdani/opds-client/actions/workflows/mainline.yml)
-[![CI - Features](https://github.com/sevdani/opds-client/actions/workflows/features.yml/badge.svg)](https://github.com/sevdani/opds-client/actions/workflows/features.yml)
+<p align="center">
+<img src="./assets/logo.svg" alt="Logo" width="150" />
+</p>
 
 A Python library for working with OPDS catalogs, supporting both [OPDS 1.2](https://specs.opds.io/opds-1.2) (Atom/XML) and [OPDS 2.0](https://specs.opds.io/opds-2.0) (JSON) specifications.
+
+[![CI - Mainline](https://github.com/sevdani/opds-client/actions/workflows/mainline.yml/badge.svg)](https://github.com/sevdani/opds-client/actions/workflows/mainline.yml)
+[![CI - Features](https://github.com/sevdani/opds-client/actions/workflows/features.yml/badge.svg)](https://github.com/sevdani/opds-client/actions/workflows/features.yml)
 
 ## Features
 

@@ -19,7 +19,9 @@ class Price(BaseModel):
     """OPDS 1.2 price element."""
 
     value: str = Field(..., description="Price value as text")
-    currencycode: str = Field(..., min_length=3, max_length=3, description="ISO 4217 currency code")
+    currencycode: str = Field(
+        ..., min_length=3, max_length=3, description="ISO 4217 currency code"
+    )
 
     @field_validator("currencycode")
     @classmethod
@@ -34,7 +36,9 @@ class IndirectAcquisition(BaseModel):
     """OPDS 1.2 indirect acquisition element."""
 
     type: str = Field(..., alias="type", description="MIME media type")
-    child: Optional[list["IndirectAcquisition"]] = Field(default=None, description="Nested acquisitions")
+    child: Optional[list["IndirectAcquisition"]] = Field(
+        default=None, description="Nested acquisitions"
+    )
 
     model_config = ConfigDict(populate_by_name=True)
 
@@ -43,10 +47,12 @@ class Link(BaseModel):
     """OPDS 1.2 Atom link element."""
 
     href: str | AnyHttpUrl
-    rel: Optional[str] = Field(default=None, description="Link relation")
+    rel: Optional[str | list[str]] = Field(default=None, description="Link relation")
     title: Optional[str] = Field(default=None, description="Link title")
     type: Optional[str] = Field(default=None, description="MIME media type")
-    properties: Optional[dict[str, Any]] = Field(default=None, description="Additional properties")
+    properties: Optional[dict[str, Any]] = Field(
+        default=None, description="Additional properties"
+    )
 
     def is_acquisition_link(self) -> bool:
         """Check if this is an acquisition link."""
@@ -55,18 +61,28 @@ class Link(BaseModel):
         acquisition_prefixes = [
             "http://opds-spec.org/acquisition",
         ]
-        return any(self.rel.startswith(prefix) for prefix in acquisition_prefixes)
+        if isinstance(self.rel, str):
+            return any(self.rel.startswith(prefix) for prefix in acquisition_prefixes)
+        return False
 
     def get_price(self) -> Optional[Price]:
         """Get price from properties."""
         if self.properties and "price" in self.properties:
-            return self.properties["price"]
+            price_obj = self.properties["price"]
+            if isinstance(price_obj, list):
+                return price_obj[0] if price_obj else None
+            if isinstance(price_obj, Price):
+                return price_obj
+            return None
         return None
 
     def get_indirect_acquisitions(self) -> list[IndirectAcquisition]:
         """Get indirect acquisitions from properties."""
         if self.properties and "indirectAcquisition" in self.properties:
-            return self.properties["indirectAcquisition"]
+            acq = self.properties["indirectAcquisition"]
+            if isinstance(acq, list):
+                return acq
+            return [acq] if acq is not None else []
         return []
 
 
@@ -87,7 +103,9 @@ class FacetGroup(BaseModel):
 
     title: str = Field(..., description="Group title")
     links: list[Link] = Field(..., min_length=1, description="Facet links")
-    active_facet: Optional[str] = Field(default=None, description="Currently active facet")
+    active_facet: Optional[str] = Field(
+        default=None, description="Currently active facet"
+    )
     count: Optional[int] = Field(default=None, ge=0, description="Number of items")
 
     @model_validator(mode="after")
@@ -110,9 +128,13 @@ class FacetGroup(BaseModel):
 class DublinCoreMetadata(BaseModel):
     """Dublin Core metadata elements."""
 
-    identifier: Optional[str] = Field(default=None, description="Publication identifier")
+    identifier: Optional[str] = Field(
+        default=None, description="Publication identifier"
+    )
     title: Optional[str] = Field(default=None, description="Publication title")
-    creator: Optional[str] = Field(default=None, alias="creator", description="Author/creator")
+    creator: Optional[str] = Field(
+        default=None, alias="creator", description="Author/creator"
+    )
     contributor: Optional[str] = Field(default=None, description="Contributor")
     date: Optional[datetime] = Field(default=None, description="Publication date")
     type: Optional[str] = Field(default=None, description="Resource type")
@@ -134,12 +156,16 @@ class Entry(BaseModel):
     updated: datetime = Field(..., description="Last updated timestamp")
     links: list[Link] = Field(..., min_length=1, description="Entry links")
     authors: Optional[list[str]] = Field(default=None, description="Entry authors")
-    categories: Optional[list[str]] = Field(default=None, description="Entry categories")
+    categories: Optional[list[str]] = Field(
+        default=None, description="Entry categories"
+    )
     rights: Optional[str] = Field(default=None, description="Rights")
     published: Optional[datetime] = Field(default=None, description="Published date")
     summary: Optional[str] = Field(default=None, description="Summary/description")
     content: Optional[str] = Field(default=None, description="Full content")
-    dc_metadata: Optional[DublinCoreMetadata] = Field(default=None, alias="dc_metadata", description="Dublin Core metadata")
+    dc_metadata: Optional[DublinCoreMetadata] = Field(
+        default=None, alias="dc_metadata", description="Dublin Core metadata"
+    )
 
     model_config = ConfigDict(populate_by_name=True)
 
@@ -154,7 +180,8 @@ class Entry(BaseModel):
             raise ValueError("Entry must have an updated timestamp")
 
         # Must have at least one acquisition link (for OPDS 1.2 entries)
-        # Note: Navigation feed entries don't have acquisition links, but the Entry model is for Acquisition Feed entries
+        # Note: Navigation feed entries don't have acquisition links,
+        #   but the Entry model is for Acquisition Feed entries
         # The parser will skip non-acquisition entries for navigation feeds
         # has_acquisition = any(link.is_acquisition_link() for link in self.links)
         # if not has_acquisition:
@@ -178,11 +205,13 @@ class Entry(BaseModel):
 
     def get_acquisition_links(self) -> list[AcquisitionLink]:
         """Get all acquisition links."""
-        return [link for link in self.links if link.is_acquisition_link()]
+        return [link for link in self.links if link.is_acquisition_link()]  # type: ignore[misc]
 
     def has_price(self) -> bool:
         """Check if any acquisition link has a price."""
-        return any(link.get_price() for link in self.links if link.is_acquisition_link())
+        return any(
+            link.get_price() for link in self.links if link.is_acquisition_link()
+        )
 
     def is_complete_entry(self) -> bool:
         """Check if this is a complete entry (no alternate link)."""
@@ -202,10 +231,18 @@ class Feed(BaseModel):
     links: list[Link] = Field(..., min_length=1, description="Feed links")
     authors: Optional[list[str]] = Field(default=None, description="Feed authors")
     entries: Optional[list[Entry]] = Field(default=None, description="Feed entries")
-    total_results: Optional[int] = Field(default=None, ge=0, alias="totalResults", description="Total results")
-    items_per_page: Optional[int] = Field(default=None, ge=1, alias="itemsPerPage", description="Items per page")
-    start_index: Optional[int] = Field(default=1, ge=1, alias="startIndex", description="Start index")
-    dc_metadata: Optional[DublinCoreMetadata] = Field(default=None, alias="dc_metadata", description="Dublin Core metadata")
+    total_results: Optional[int] = Field(
+        default=None, ge=0, alias="totalResults", description="Total results"
+    )
+    items_per_page: Optional[int] = Field(
+        default=None, ge=1, alias="itemsPerPage", description="Items per page"
+    )
+    start_index: Optional[int] = Field(
+        default=1, ge=1, alias="startIndex", description="Start index"
+    )
+    dc_metadata: Optional[DublinCoreMetadata] = Field(
+        default=None, alias="dc_metadata", description="Dublin Core metadata"
+    )
 
     model_config = ConfigDict(populate_by_name=True)
 

@@ -82,7 +82,9 @@ class TestLinkModel:
 
     def test_is_search_link(self):
         """Test search link detection."""
-        link = Link(href="https://example.com/search{?query}", rel="search", templated=True)
+        link = Link(
+            href="https://example.com/search{?query}", rel="search", templated=True
+        )
         assert link.is_search_link() is True
 
 

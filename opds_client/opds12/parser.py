@@ -8,6 +8,7 @@ from typing import Any, Optional
 
 from opds_client.exceptions import OPDSParseError, OPDSValidationError
 from opds_client.opds12.models import (
+    DublinCoreMetadata,
     Entry,
     FacetGroup,
     Feed,
@@ -101,7 +102,7 @@ class OPDS12Parser:
         """
         # Extract namespace from root tag
         if root.tag.startswith("{"):
-            root.tag[1:root.tag.find("}")]
+            root.tag[1 : root.tag.find("}")]
         else:
             pass
 
@@ -119,6 +120,7 @@ class OPDS12Parser:
 
         # Parse Dublin Core metadata
         dc_metadata = self._parse_dc_metadata(root, namespace=DC_NS)
+        dc_metadata_obj = dc_metadata if dc_metadata else None
 
         # Parse OpenSearch metadata
         total_results = self._get_int(root, "totalResults", namespace=OPENSEARCH_NS)
@@ -141,7 +143,7 @@ class OPDS12Parser:
             totalResults=total_results,
             itemsPerPage=items_per_page,
             startIndex=start_index,
-            dc_metadata=dc_metadata if dc_metadata else None,
+            dc_metadata=dc_metadata_obj,
         )
 
     def _parse_entries(self, root: ET.Element, namespace: str) -> list[Entry]:
@@ -180,7 +182,7 @@ class OPDS12Parser:
         """
         # Extract namespace from root tag
         if root.tag.startswith("{"):
-            root.tag[1:root.tag.find("}")]
+            root.tag[1 : root.tag.find("}")]
         else:
             pass
 
@@ -206,6 +208,7 @@ class OPDS12Parser:
 
         # Parse Dublin Core metadata
         dc_metadata = self._parse_dc_metadata(root, namespace=DC_NS)
+        dc_metadata_obj = dc_metadata if dc_metadata else None
 
         # Create entry
         entry = Entry(
@@ -219,7 +222,7 @@ class OPDS12Parser:
             links=links,
             authors=authors if authors else None,
             categories=categories if categories else None,
-            dc_metadata=dc_metadata if dc_metadata else None,
+            dc_metadata=dc_metadata_obj,
         )
 
         # Validate entry
@@ -300,27 +303,29 @@ class OPDS12Parser:
             properties["price"] = prices[0] if len(prices) == 1 else prices
 
         # Parse indirect acquisition elements
-        indirect_elements = elem.findall(f"{{{OPDS_NS}}}indirectAcquisition", self.NAMESPACES)
+        indirect_elements = elem.findall(
+            f"{{{OPDS_NS}}}indirectAcquisition", self.NAMESPACES
+        )
         if indirect_elements:
             indirect_acq = []
             for indirect_elem in indirect_elements:
                 indirect = self._parse_indirect_acquisition(indirect_elem)
                 indirect_acq.append(indirect)
-            properties["indirectAcquisition"] = indirect_acq
+            properties["indirectAcquisition"] = indirect_acq  # type: ignore[assignment]
 
         # Parse facet group attributes
         facet_group = elem.get(f"{{{OPDS_NS}}}facetGroup")
         if facet_group:
-            properties["facetGroup"] = facet_group
+            properties["facetGroup"] = facet_group  # type: ignore[assignment]
 
         active_facet = elem.get(f"{{{OPDS_NS}}}activeFacet")
         if active_facet is not None:
-            properties["activeFacet"] = active_facet
+            properties["activeFacet"] = active_facet  # type: ignore[assignment]
 
         # Parse thr:count
         count = elem.get(f"{{{THRIFT_NS}}}count")
         if count:
-            properties["count"] = int(count)
+            properties["count"] = int(count)  # type: ignore[assignment]
 
         return properties
 
@@ -337,7 +342,9 @@ class OPDS12Parser:
 
         # Parse child indirect acquisitions
         children = []
-        child_elements = elem.findall(f"{{{OPDS_NS}}}indirectAcquisition", self.NAMESPACES)
+        child_elements = elem.findall(
+            f"{{{OPDS_NS}}}indirectAcquisition", self.NAMESPACES
+        )
         for child_elem in child_elements:
             child = self._parse_indirect_acquisition(child_elem)
             children.append(child)
@@ -389,7 +396,9 @@ class OPDS12Parser:
 
         return categories
 
-    def _parse_dc_metadata(self, root: ET.Element, namespace: str) -> Optional[dict[str, Any]]:
+    def _parse_dc_metadata(
+        self, root: ET.Element, namespace: str
+    ) -> Optional[DublinCoreMetadata]:
         """Parse Dublin Core metadata elements.
 
         Args:
@@ -397,23 +406,38 @@ class OPDS12Parser:
             namespace: Dublin Core namespace.
 
         Returns:
-            Dictionary of DC metadata or None.
+            DublinCoreMetadata object or None.
         """
-        dc_metadata = {}
+        dc_metadata: dict[str, Any] = {}
 
         dc_elements = [
-            "identifier", "title", "creator", "contributor",
-            "date", "type", "format", "language", "publisher",
-            "description", "subject", "rights"
+            "identifier",
+            "title",
+            "creator",
+            "contributor",
+            "date",
+            "type",
+            "format",
+            "language",
+            "publisher",
+            "description",
+            "subject",
+            "rights",
         ]
 
         for elem_name in dc_elements:
             dc_elem = root.find(f"{{{namespace}}}{elem_name}", self.NAMESPACES)
             if dc_elem is not None and dc_elem.text:
-                dc_metadata[elem_name] = dc_elem.text
+                if elem_name == "date":
+                    try:
+                        dc_metadata[elem_name] = datetime.fromisoformat(dc_elem.text)
+                    except ValueError:
+                        dc_metadata[elem_name] = None
+                else:
+                    dc_metadata[elem_name] = dc_elem.text
 
         if dc_metadata:
-            return dc_metadata
+            return DublinCoreMetadata(**dc_metadata)
 
         return None
 
@@ -428,7 +452,7 @@ class OPDS12Parser:
             List of facet groups.
         """
         facets = []
-        facet_groups = {}
+        facet_groups: dict[str, dict[str, Any]] = {}
 
         # Find all links with opds:facetGroup attribute
         link_elements = root.findall(f"{{{namespace}}}link", self.NAMESPACES)
@@ -458,12 +482,14 @@ class OPDS12Parser:
 
         # Convert to FacetGroup objects
         for group_name, data in facet_groups.items():
-            facets.append(FacetGroup(
-                title=group_name,
-                links=data["links"],
-                active_facet=data["active_facet"],
-                count=data["count"],
-            ))
+            facets.append(
+                FacetGroup(
+                    title=group_name,
+                    links=data["links"],
+                    active_facet=data["active_facet"],
+                    count=data["count"],
+                )
+            )
 
         return facets
 
