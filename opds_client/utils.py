@@ -20,6 +20,7 @@ def merge_urls(base_url: str, relative_url: str) -> str:
         return relative_url
 
     from urllib.parse import urljoin
+
     return urljoin(base_url, relative_url)
 
 
@@ -33,6 +34,7 @@ def extract_uri_template_params(template: str) -> list[str]:
         List of parameter names.
     """
     import re
+
     matches = re.findall(r"\{([^}]+)\}", template)
     params = []
     for match in matches:
@@ -75,6 +77,7 @@ def get_media_type_from_url(url: str) -> Optional[str]:
     }
 
     from urllib.parse import urlparse
+
     parsed = urlparse(url)
     path = parsed.path.lower()
 
@@ -114,19 +117,21 @@ def clean_blank_values(data: dict[str, Any]) -> dict[str, Any]:
     Returns:
         Dictionary with blank values removed.
     """
-    blank_values = [None, "", [], {}]
+    blank_values: list[Any] = [None, "", [], {}]
 
-    result = {}
+    result: dict[str, Any] = {}
     for key, value in data.items():
         if isinstance(value, dict):
             cleaned = clean_blank_values(value)
             if cleaned:
                 result[key] = cleaned
         elif isinstance(value, list):
-            cleaned = [clean_blank_values(v) if isinstance(v, dict) else v for v in value]
-            cleaned = [v for v in cleaned if v not in blank_values]
-            if cleaned:
-                result[key] = cleaned
+            cleaned_items: list[Any] = [
+                clean_blank_values(v) if isinstance(v, dict) else v for v in value
+            ]
+            cleaned_items = [v for v in cleaned_items if v not in blank_values]
+            if cleaned_items:
+                result[key] = cleaned_items
         elif value not in blank_values:
             result[key] = value
 
@@ -176,6 +181,7 @@ def parse_datetime(value: str) -> Optional[str]:
     ]
 
     from datetime import datetime
+
     for fmt in formats:
         try:
             dt = datetime.strptime(value, fmt)

@@ -114,9 +114,7 @@ class Collection(BaseModel):
         if not self.links:
             return None
         for link in self.links:
-            if link.rel == rel or (
-                isinstance(link.rel, list) and rel in link.rel
-            ):
+            if link.rel == rel or (isinstance(link.rel, list) and rel in link.rel):
                 return link
         return None
 
@@ -142,8 +140,6 @@ class Facet(BaseModel):
 
     metadata: Metadata
     links: list[FacetLink]
-
-
 
     def get_active_facet(self) -> Optional[FacetLink]:
         """Get the currently active facet link."""
@@ -234,7 +230,10 @@ class OPDSFeed(Collection):
             has_collection = True
 
         if not has_collection:
-            raise ValueError("Feed must contain at least one collection (navigation, publications, groups, or facets)")
+            raise ValueError(
+                "Feed must contain at least one collection " +
+                "(navigation, publications, groups, or facets)"
+            )
 
         return self
 

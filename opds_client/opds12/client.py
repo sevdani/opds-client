@@ -117,7 +117,7 @@ class OPDS12Client:
 
         try:
             feed = self.parser.parse(response.text)
-            feed._url = self._prepare_url(url)
+            feed._url = self._prepare_url(url)  # type: ignore[attr-defined]
             return feed
         except Exception as e:
             raise e
@@ -140,7 +140,9 @@ class OPDS12Client:
         headers["Accept"] = "application/atom+xml;type=entry;profile=opds-catalog"
 
         try:
-            response = self.session.get(self._prepare_url(url), headers=headers, timeout=self.timeout)
+            response = self.session.get(
+                self._prepare_url(url), headers=headers, timeout=self.timeout
+            )
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             if hasattr(e, "response") and e.response is not None:
@@ -154,7 +156,7 @@ class OPDS12Client:
 
         try:
             entry = self.parser.parse_entry(response.text)
-            entry._url = self._prepare_url(url)
+            entry._url = self._prepare_url(url)  # type: ignore[attr-defined]
             return entry
         except Exception as e:
             raise e
@@ -279,7 +281,7 @@ class OPDS12Client:
 
         Args:
             entry: OPDS entry.
-            acquisition_type: Type of acquisition (buy, borrow, etc.)
+            acquisition_type: Type of acquisition (buy, borrow, etc.).
 
         Returns:
             Acquisition Link or None if not found.
@@ -287,8 +289,13 @@ class OPDS12Client:
         acquisition_links = entry.get_acquisition_links()
 
         for link in acquisition_links:
-            if acquisition_type in link.rel:
-                return link
+            rel_value = link.rel
+            if isinstance(rel_value, list):
+                if acquisition_type in rel_value:
+                    return link
+            elif rel_value is not None:
+                if acquisition_type in rel_value:
+                    return link
 
         # Fallback to any acquisition link
         if acquisition_links:
@@ -304,6 +311,11 @@ class OPDS12Client:
         """Context manager entry."""
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    def __exit__(
+        self,
+        exc_type: Optional[type],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[object],
+    ) -> None:
         """Context manager exit."""
         self.close()

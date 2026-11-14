@@ -137,8 +137,9 @@ class OPDSParser:
                 self.warnings.append(f"Skipping invalid facet: {facet_data}")
 
         # Create feed without validation - allow empty collections
+        metadata_obj = metadata if metadata else {"title": "Unknown"}
         return OPDSFeed(
-            metadata=metadata if metadata else {"title": "Unknown"},
+            metadata=metadata_obj,  # type: ignore[arg-type]
             links=links,
             navigation=navigation if navigation else None,
             publications=publications if publications else None,
@@ -210,8 +211,11 @@ class URITemplateResolver:
             if placeholder in result:
                 result = result.replace(placeholder, str(value))
 
-        missing = [p for p in URITemplateResolver._extract_params(template)
-                   if f"{{{p}}}" in result]
+        missing = [
+            p
+            for p in URITemplateResolver._extract_params(template)
+            if f"{{{p}}}" in result
+        ]
         if missing:
             raise ValueError(f"Missing required parameters: {missing}")
 
@@ -248,6 +252,7 @@ class URITemplateResolver:
             List of parameter names.
         """
         import re
+
         matches = re.findall(r"\{([^}]+)\}", template)
         params = []
         for match in matches:

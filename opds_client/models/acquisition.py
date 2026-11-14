@@ -48,7 +48,7 @@ class AcquisitionManager:
 
     def get_open_access_link(self) -> Optional[Link]:
         """Get an open access link if available."""
-        if self.link.is_open_access():
+        if self.link.rel == "open-access":
             return self.link
         return None
 

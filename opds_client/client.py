@@ -123,7 +123,7 @@ class OPDSClient:
 
         try:
             feed = self.parser.parse(response.text)
-            feed._url = url
+            feed._url = url  # type: ignore[attr-defined]
             return feed
         except (OPDSParseError, OPDSValidationError) as e:
             raise e
@@ -144,11 +144,14 @@ class OPDSClient:
         """
         headers = self.DEFAULT_HEADERS.copy()
         headers["Accept"] = (
-            "application/opds-publication+json, application/opds+json, application/json, */*"
+            "application/opds-publication+json, application/opds+json, " +
+            "application/json, */*"
         )
 
         try:
-            response = self.session.get(self._prepare_url(url), headers=headers, timeout=self.timeout)
+            response = self.session.get(
+                self._prepare_url(url), headers=headers, timeout=self.timeout
+            )
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             if hasattr(e, "response") and e.response is not None:
@@ -162,7 +165,7 @@ class OPDSClient:
 
         try:
             publication = self.parser.parse_publication(response.text)
-            publication._url = self._prepare_url(url)
+            publication._url = self._prepare_url(url)  # type: ignore[attr-defined]
             return publication
         except (OPDSParseError, OPDSValidationError) as e:
             raise e
@@ -188,7 +191,9 @@ class OPDSClient:
 
         return self.fetch_feed(self._prepare_url(url))
 
-    def navigate_to(self, feed: "OPDSFeed", rel: str, **params: str | int | float) -> "OPDSFeed":
+    def navigate_to(
+        self, feed: "OPDSFeed", rel: str, **params: str | int | float
+    ) -> "OPDSFeed":
         """Navigate to a feed using a link relation.
 
         Args:
@@ -245,8 +250,9 @@ class OPDSClient:
         if search_link is None:
             raise SearchError("Search is not supported by this catalog")
 
-        params = {"query": query}
-        params.update(filters)
+        params: dict[str, str] = {"query": query}
+        if filters:
+            params.update({str(k): str(v) for k, v in filters.items()})
 
         try:
             return self.follow_link(search_link, **params)
@@ -335,7 +341,9 @@ class OPDSClient:
 
         raise OPDSNavigationError(f"Navigation link with title '{title}' not found")
 
-    def follow_facet(self, feed: "OPDSFeed", facet_title: str, link_title: str) -> "OPDSFeed":
+    def follow_facet(
+        self, feed: "OPDSFeed", facet_title: str, link_title: str
+    ) -> "OPDSFeed":
         """Follow a facet link by facet and link title.
 
         Args:
@@ -367,6 +375,11 @@ class OPDSClient:
         """Context manager entry."""
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    def __exit__(
+        self,
+        exc_type: Optional[type],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[object],
+    ) -> None:
         """Context manager exit."""
         self.close()
