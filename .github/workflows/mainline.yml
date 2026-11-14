@@ -87,9 +87,16 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "actions@users.noreply.github.com"
 
+
+      - name: Build distribution artifacts
+        run: |
+          python -m pip install build
+          python -m build --sdist --wheel .
+
       - name: Determine version and create release
         uses: python-semantic-release/python-semantic-release@v10
         with:
+          build: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
           git_committer_name: "github-actions"
           git_committer_email: "actions@users.noreply.github.com"
