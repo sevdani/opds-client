@@ -1,8 +1,8 @@
 # OPDS Client
 
-<p>
-<img src="./assets/logo.svg" alt="Logo" width="150" style="display: block; margin: 0 auto" />
-<p>
+<p align="center">
+<img src="./assets/logo.svg" alt="Logo" width="150" />
+</p>
 
 A Python library for working with OPDS catalogs, supporting both [OPDS 1.2](https://specs.opds.io/opds-1.2) (Atom/XML) and [OPDS 2.0](https://specs.opds.io/opds-2.0) (JSON) specifications.
 
