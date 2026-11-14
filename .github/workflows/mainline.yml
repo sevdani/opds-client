@@ -26,7 +26,6 @@ jobs:
   ci:
     name: CI Checks
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
 
     steps:
       - name: Checkout repository
