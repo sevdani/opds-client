@@ -1,6 +1,5 @@
 """Tests for OPDS utilities."""
 
-
 from opds_client.utils import (
     clean_blank_values,
     extract_uri_template_params,

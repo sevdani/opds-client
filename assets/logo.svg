@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="80 108 352 352">
+  <defs>
+    <style>
+      .primary {
+        fill: none;
+        stroke: #2563eb;
+        stroke-width: 24;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .accent {
+        fill: #2563eb;
+      }
+    </style>
+  </defs>
+
+  <!-- Book -->
+  <path class="primary" d="M96 120
+                           C160 120 208 140 256 176
+                           C304 140 352 120 416 120
+                           V392
+                           C352 392 304 412 256 448
+                           C208 412 160 392 96 392
+                           Z"/>
+
+  <!-- Center fold -->
+  <line class="primary" x1="256" y1="176" x2="256" y2="448"/>
+
+  <!-- Left Feed Icon -->
+  <circle class="accent" cx="172" cy="228" r="14"/>
+  <path class="primary" d="M180 188
+                           A56 56 0 0 0 124 244"/>
+  <path class="primary" d="M190 156
+                           A88 88 0 0 0 92 254"/>
+
+  <!-- Right Feed Icon -->
+  <circle class="accent" cx="340" cy="228" r="14"/>
+  <path class="primary" d="M332 188
+                           A56 56 0 0 1 388 244"/>
+  <path class="primary" d="M322 156
+                           A88 88 0 0 1 420 254"/>
+</svg>

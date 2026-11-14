@@ -32,9 +32,7 @@ class TestAcquisitionLinkModel:
         link = AcquisitionLink(
             href="https://example.com/buy",
             rel="buy",
-            properties={
-                "price": {"currency": "EUR", "value": 19.99}
-            },
+            properties={"price": {"currency": "EUR", "value": 19.99}},
         )
         assert link.get_price() is not None
         assert link.get_price().currency == "EUR"
@@ -47,9 +45,7 @@ class TestAcquisitionLinkModel:
             rel="buy",
             properties={
                 "price": {"currency": "USD", "value": 9.99},
-                "indirectAcquisition": [
-                    {"type": "application/epub+zip"}
-                ],
+                "indirectAcquisition": [{"type": "application/epub+zip"}],
             },
         )
         indirect = link.get_indirect_acquisitions()

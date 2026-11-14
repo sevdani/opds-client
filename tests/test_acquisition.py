@@ -1,7 +1,5 @@
 """Tests for acquisition models."""
 
-
-
 from opds_client.models import (
     AcquisitionFlow,
     AcquisitionLink,
@@ -31,11 +29,7 @@ class TestAcquisitionFlow:
         intermediate_link = AcquisitionLink(
             href="https://example.com/buy",
             rel="buy",
-            properties={
-                "indirectAcquisition": [
-                    {"type": "application/epub+zip"}
-                ]
-            },
+            properties={"indirectAcquisition": [{"type": "application/epub+zip"}]},
         )
 
         # Create a proper chain with the final link in the chain
@@ -66,7 +60,7 @@ class TestAcquisitionManager:
         )
         manager = AcquisitionManager(link)
 
-        download = manager.get_open_access_link()
+        download = manager.get_download_link()
         assert download is not None
 
     def test_buy_link(self):
@@ -74,9 +68,7 @@ class TestAcquisitionManager:
         link = AcquisitionLink(
             href="https://example.com/buy",
             rel="buy",
-            properties={
-                "price": {"currency": "USD", "value": 9.99}
-            },
+            properties={"price": {"currency": "USD", "value": 9.99}},
         )
         manager = AcquisitionManager(link)
 
@@ -112,9 +104,7 @@ class TestAcquisitionManager:
         link = AcquisitionLink(
             href="https://example.com/buy",
             rel="buy",
-            properties={
-                "price": {"currency": "USD", "value": 9.99}
-            },
+            properties={"price": {"currency": "USD", "value": 9.99}},
         )
         manager = AcquisitionManager(link)
 

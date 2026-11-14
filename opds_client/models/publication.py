@@ -62,7 +62,9 @@ class AcquisitionLink(Link):
 
     @field_validator("rel")
     @classmethod
-    def validate_acquisition_rel(cls, v: str | list[str] | None) -> str | list[str] | None:
+    def validate_acquisition_rel(
+        cls, v: str | list[str] | None
+    ) -> str | list[str] | None:
         """Validate acquisition relation."""
         if v is None:
             return v
@@ -146,18 +148,18 @@ class Publication(BaseModel):
                 return image
         return None
 
-    def get_acquisition_links(self) -> list[AcquisitionLink]:
+    def get_acquisition_links(self) -> list[Link]:
         """Get all acquisition links."""
-        return [
-            link
-            for link in self.links
-            if isinstance(link, AcquisitionLink)
-            or link.rel in AcquisitionLink.RELATIONS
-            or (
+        acquisition_links: list[Link] = []
+        for link in self.links:
+            if isinstance(link, AcquisitionLink):
+                acquisition_links.append(link)
+            elif link.rel in AcquisitionLink.RELATIONS or (
                 isinstance(link.rel, list)
                 and any(r in AcquisitionLink.RELATIONS for r in link.rel)
-            )
-        ]
+            ):
+                acquisition_links.append(link)
+        return acquisition_links
 
 
 class OPDSPublication(Publication):
@@ -166,7 +168,7 @@ class OPDSPublication(Publication):
     @model_validator(mode="after")
     def validate_opds_publication(self) -> "OPDSPublication":
         """Validate OPDS publication requirements."""
-        super().validate_publication()
+        super().validate_publication()  # type: ignore[operator]
 
         has_acquisition = False
         for link in self.links:
