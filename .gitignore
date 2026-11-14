@@ -58,6 +58,3 @@ build/
 # Changelog
 CHANGELOG.md
 
-# GitHub Actions
-.github/
-!.github/dependabot.yml
