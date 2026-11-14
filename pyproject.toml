@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "opds-client"
-version = "1.0.0"
+version = "0.0.1"
 description = "OPDS 2.0 Client Library for Python"
 readme = "README.md"
 license = {text = "MIT"}
