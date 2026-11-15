@@ -10,7 +10,7 @@
 - New module structure with `opds_client/opds2/` and `opds_client/opds12/` packages
 - Import aliases `v1_2` and `v2_0` for version-specific access
 - `URITemplateResolver` class for resolving URI templates in OPDS 2.0
-- Comprehensive documentation site (MKDocs) with:
+- Comprehensive documentation site (zensical) with:
   - API reference (`docs/api.md`)
   - Getting started guide (`docs/getting-started.md`)
   - OPDS 1.2 guide (`docs/opds12.md`)

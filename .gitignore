@@ -49,7 +49,7 @@ docs/_build/
 docs/_static/
 docs/_templates/
 
-# MkDocs site (generated documentation)
+# zensical site (generated documentation)
 site/
 
 # Build artifacts

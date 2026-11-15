@@ -97,6 +97,10 @@ if feed.entries:
     acq_links = entry.get_acquisition_links()
 ```
 
+## Documentation
+
+The full documentation is available at: **https://sevdani.github.io/opds-client**
+
 ## Testing
 
 ```bash
@@ -116,12 +120,6 @@ mypy opds_client
 ruff check .
 ```
 
-## Documentation
-
-The full documentation is available at: **https://sevdani.github.io/opds-client**
-
-The documentation is built with [Zensical](https://zensical.org/) (successor to Material for MkDocs).
-
 ### Building Documentation Locally
 
 ```bash
@@ -131,14 +129,8 @@ pip install -e ".[docs]"
 # Build with Zensical
 zensical build
 
-# Build with MkDocs (legacy)
-mkdocs build
-
 # Preview with Zensical
 zensical serve
-
-# Preview with MkDocs (legacy)
-mkdocs serve
 ```
 
 ## License

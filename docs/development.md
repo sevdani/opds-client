@@ -80,8 +80,8 @@ ruff format .
 pip install -e ".[docs]"
 
 # Build documentation
-mkdocs build
+zensical build
 
 # Serve documentation locally
-mkdocs serve
+zensical serve
 ```
