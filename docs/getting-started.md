@@ -21,10 +21,10 @@ pip install -e ".[dev,docs]"
 ### OPDS 2.0 Client
 
 ```python
-from opds_client import OPDSClient
+from opds_client import OPDS2Client
 
 # Create a client
-client = OPDSClient()
+client = OPDS2Client()
 
 # Fetch a feed
 feed = client.fetch_feed("https://example.com/opds")
@@ -76,9 +76,9 @@ client.close()
 Both clients support setting a base URL (origin) for relative paths:
 
 ```python
-from opds_client import OPDSClient
+from opds_client import OPDS2Client
 
-client = OPDSClient(origin="https://example.com")
+client = OPDS2Client(origin="https://example.com")
 feed = client.fetch_feed("/catalog")  # → https://example.com/catalog
 ```
 
@@ -96,10 +96,10 @@ feed = client.fetch_feed("https://example.com/opds")
 ### Custom Auth
 
 ```python
-from opds_client import OPDSClient
+from opds_client import OPDS2Client
 from requests.auth import HTTPDigestAuth
 
-client = OPDSClient(auth=HTTPDigestAuth("username", "password"))
+client = OPDS2Client(auth=HTTPDigestAuth("username", "password"))
 feed = client.fetch_feed("https://example.com/opds")
 ```
 
@@ -108,9 +108,9 @@ feed = client.fetch_feed("https://example.com/opds")
 The library provides custom exceptions:
 
 ```python
-from opds_client import OPDSClient, OPDSHTTPError, OPDSParseError
+from opds_client import OPDS2Client, OPDSHTTPError, OPDSParseError
 
-client = OPDSClient()
+client = OPDS2Client()
 try:
     feed = client.fetch_feed("https://example.com/opds")
 except OPDSHTTPError as e:

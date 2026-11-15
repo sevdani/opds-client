@@ -4,41 +4,47 @@
 
 ### Client
 
-::: opds_client.OPDSClient
+::: opds_client.OPDS2Client
 
 ### Models
 
-::: opds_client.models.Link
+::: opds_client.opds2.models.Link
 
-::: opds_client.models.AcquisitionLink
+::: opds_client.opds2.models.AcquisitionLink
 
-::: opds_client.models.NavigationLink
+::: opds_client.opds2.models.NavigationLink
 
-::: opds_client.models.Metadata
+::: opds_client.opds2.models.Metadata
 
-::: opds_client.models.OPDSPublication
+::: opds_client.opds2.models.OPDSPublication
 
-::: opds_client.models.OPDSFeed
+::: opds_client.opds2.models.OPDSFeed
 
-::: opds_client.models.Facet
+::: opds_client.opds2.models.Facet
 
-::: opds_client.models.Group
+::: opds_client.opds2.models.Group
 
 ### Acquisition
 
-::: opds_client.models.AcquisitionManager
+::: opds_client.opds2.models.AcquisitionManager
+
+### Parser
+
+::: opds_client.opds2.OPDS2Parser
+
+::: opds_client.opds2.URITemplateResolver
 
 ### Exceptions
 
-::: opds_client.exceptions.OPDSHTTPError
+::: opds_client.opds2.exceptions.OPDSHTTPError
 
-::: opds_client.exceptions.OPDSParseError
+::: opds_client.opds2.exceptions.OPDSParseError
 
-::: opds_client.exceptions.OPDSValidationError
+::: opds_client.opds2.exceptions.OPDSValidationError
 
-::: opds_client.exceptions.OPDSNavigationError
+::: opds_client.opds2.exceptions.OPDSNavigationError
 
-::: opds_client.exceptions.SearchError
+::: opds_client.opds2.exceptions.SearchError
 
 ## OPDS 1.2 API
 

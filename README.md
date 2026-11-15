@@ -15,7 +15,7 @@ A Python library for working with OPDS catalogs, supporting both [OPDS 1.2](http
 [![CI - Features](https://github.com/sevdani/opds-client/actions/workflows/features.yml/badge.svg)](https://github.com/sevdani/opds-client/actions/workflows/features.yml)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-[Features](#features) · [Installation](#installation) · [Quick Start](#quick-start) · [Authentication](#authentication) · [Models](#models) · [Usage Examples](#usage-examples) · [OPDS 1.2 vs OPDS 2.0](#opds-12-vs-opds-20) · [Testing](#testing) · [Project Structure](#project-structure) · [License](#license)
+[Features](#features) · [Installation](#installation) · [Quick Start](#quick-start) · [Authentication](#authentication) · [Models](#models) · [Usage Examples](#usage-examples) · [OPDS 1.2 vs OPDS 2.0](#opds-12-vs-opds-20) · [Testing](#testing) · [Documentation](#documentation) · [Project Structure](#project-structure) · [License](#license)
 
 </div>
 
@@ -114,6 +114,31 @@ mypy opds_client
 
 # Run linter
 ruff check .
+```
+
+## Documentation
+
+The full documentation is available at: **https://sevdani.github.io/opds-client**
+
+The documentation is built with [Zensical](https://zensical.org/) (successor to Material for MkDocs).
+
+### Building Documentation Locally
+
+```bash
+# Install docs dependencies
+pip install -e ".[docs]"
+
+# Build with Zensical
+zensical build
+
+# Build with MkDocs (legacy)
+mkdocs build
+
+# Preview with Zensical
+zensical serve
+
+# Preview with MkDocs (legacy)
+mkdocs serve
 ```
 
 ## License

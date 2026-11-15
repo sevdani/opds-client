@@ -153,7 +153,7 @@ jobs:
 
       - name: Build documentation
         run: |
-          mkdocs build
+          zensical build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

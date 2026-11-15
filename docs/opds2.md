@@ -4,14 +4,14 @@ This guide covers using the OPDS 2.0 client for JSON-based OPDS catalogs.
 
 ## OPDS 2.0 Client
 
-The `OPDSClient` class handles OPDS 2.0 feeds (JSON format).
+The `OPDS2Client` class handles OPDS 2.0 feeds (JSON format).
 
 ### Fetching a Feed
 
 ```python
-from opds_client import OPDSClient
+from opds_client import OPDS2Client
 
-client = OPDSClient()
+client = OPDS2Client()
 feed = client.fetch_feed("https://example.com/opds")
 ```
 
@@ -68,7 +68,7 @@ if feed.get_search_link():
 Main feed class for OPDS 2.0:
 
 ```python
-from opds_client.models import OPDSFeed, Metadata, Link
+from opds_client.opds2.models import OPDSFeed, Metadata, Link
 
 feed = OPDSFeed(
     metadata=Metadata(title="My Catalog"),
@@ -83,7 +83,7 @@ feed = OPDSFeed(
 Individual publication entry:
 
 ```python
-from opds_client.models import OPDSPublication, Metadata, Link
+from opds_client.opds2.models import OPDSPublication, Metadata, Link
 
 pub = OPDSPublication(
     metadata=Metadata(
@@ -104,7 +104,7 @@ pub = OPDSPublication(
 - **AcquisitionLink**: Link for acquiring publications
 
 ```python
-from opds_client.models import Link, AcquisitionLink
+from opds_client.opds2.models import Link, AcquisitionLink
 
 # Basic link
 link = Link(href="https://example.com", rel="self")

@@ -7,9 +7,9 @@ This page contains practical examples of using the OPDS Client library.
 ### OPDS 2.0
 
 ```python
-from opds_client import OPDSClient
+from opds_client import OPDS2Client
 
-client = OPDSClient()
+client = OPDS2Client()
 feed = client.fetch_feed("https://example.com/opds")
 
 # Check if search is supported
@@ -39,9 +39,9 @@ if feed.get_opensearch_link():
 ### OPDS 2.0
 
 ```python
-from opds_client import OPDSClient
+from opds_client import OPDS2Client
 
-client = OPDSClient()
+client = OPDS2Client()
 feed = client.fetch_feed("https://example.com/opds")
 
 # Follow a category facet
@@ -71,10 +71,10 @@ for group in feed.facets or []:
 ### OPDS 2.0
 
 ```python
-from opds_client import OPDSClient
-from opds_client.models import AcquisitionManager
+from opds_client import OPDS2Client
+from opds_client.opds2.models import AcquisitionManager
 
-client = OPDSClient()
+client = OPDS2Client()
 pub = client.fetch_publication("https://example.com/publication")
 
 # Get acquisition links
@@ -124,9 +124,9 @@ for link in acq_links:
 ### OPDS 2.0
 
 ```python
-from opds_client import OPDSClient
+from opds_client import OPDS2Client
 
-client = OPDSClient()
+client = OPDS2Client()
 feed = client.fetch_feed("https://example.com/opds?page=1")
 
 # Paginate through results
@@ -170,14 +170,14 @@ while current_feed:
 
 ```python
 from opds_client import (
-    OPDSClient,
+    OPDS2Client,
     OPDSHTTPError,
     OPDSParseError,
     OPDSNavigationError,
     SearchError,
 )
 
-client = OPDSClient()
+client = OPDS2Client()
 
 try:
     feed = client.fetch_feed("https://example.com/opds")

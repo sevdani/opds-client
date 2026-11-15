@@ -9,6 +9,7 @@ docs_dir: docs
 
 theme:
   name: material
+  variant: classic
   logo: assets/logo-white.svg
   favicon: assets/favicon.ico
   static_dir:
