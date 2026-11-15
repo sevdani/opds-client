@@ -85,8 +85,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "actions@users.noreply.github.com"
 
-
-      - name: Determine version and create release
+      - name: Bump version and create tag
         run: |
           # Use bump2version to bump version based on force_level input
           bump2version ${{ github.event.inputs.force_level }}
@@ -108,12 +107,51 @@ jobs:
           # Push changes and tags
           git push origin main
           git push origin "v$NEW_VERSION"
+
+      - name: Build package
+        run: python -m build --sdist --wheel .
+
+      - name: Verify version consistency
+        run: |
+          # Extract version from pyproject.toml
+          pyproject_version=$(grep -E "^version = " pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
           
-          # Build the package
-          python -m build --sdist --wheel .
+          # Extract version from the built wheel
+          wheel_file=$(find dist -name "*.whl" -type f | head -1)
+          wheel_version=$(unzip -p "$wheel_file" "*dist-info/METADATA" | grep "^Version:" | head -1 | sed 's/Version: //')
           
-          # Upload distribution artifacts
-          echo "Distribution artifacts prepared in dist/"
+          # Get the version from the tag we just created (from pyproject.toml value)
+          clean_tag="$pyproject_version"
+          latest_tag="v$clean_tag"
+          
+          echo "Version from pyproject.toml: $pyproject_version"
+          echo "Version from wheel metadata: $wheel_version"
+          echo "Latest tag: $latest_tag (clean: $clean_tag)"
+          
+          if [ "$pyproject_version" != "$wheel_version" ]; then
+            echo "ERROR: Version mismatch! pyproject.toml has $pyproject_version but wheel has $wheel_version"
+            exit 1
+          fi
+          
+          if [ "$pyproject_version" != "$clean_tag" ]; then
+            echo "ERROR: Version mismatch! pyproject.toml has $pyproject_version but tag is $clean_tag"
+            exit 1
+          fi
+          
+          echo "✓ Version consistency verified: $pyproject_version"
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
+          print-hash: true
+
+      - name: Upload distribution artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: distribution-artifacts
+          path: dist
+          retention-days: 7
 
   docs:
     name: Build and Deploy Documentation
