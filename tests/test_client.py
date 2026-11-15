@@ -11,9 +11,9 @@ from opds_client.opds2 import (
     Link,
     Metadata,
     NavigationLink,
-    OPDSClient,
+    OPDS2Client,
+    OPDS2Parser,
     OPDSFeed,
-    OPDSParser,
     OPDSPublication,
     Publication,
     URITemplateResolver,
@@ -196,7 +196,7 @@ class TestFeedParser:
 
     def test_parse_valid_feed(self):
         """Test parsing a valid OPDS feed."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/feed.json") as f:
             feed_data = json.load(f)
@@ -211,7 +211,7 @@ class TestFeedParser:
 
     def test_parse_publication(self):
         """Test parsing a publication."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/publication.json") as f:
             pub_data = json.load(f)
@@ -224,7 +224,7 @@ class TestFeedParser:
 
     def test_parse_facets(self):
         """Test parsing facets."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/facets.json") as f:
             feed_data = json.load(f)
@@ -244,7 +244,7 @@ class TestFeedParser:
 
     def test_parse_groups(self):
         """Test parsing groups."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/groups.json") as f:
             feed_data = json.load(f)
@@ -269,7 +269,7 @@ class TestFeedMethods:
 
     def test_get_link_by_rel(self):
         """Test getting link by relation."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/feed.json") as f:
             feed_data = json.load(f)
@@ -282,7 +282,7 @@ class TestFeedMethods:
 
     def test_pagination_links(self):
         """Test pagination link methods."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/feed.json") as f:
             feed_data = json.load(f)
@@ -296,7 +296,7 @@ class TestFeedMethods:
 
     def test_is_searchable(self):
         """Test checking if feed is searchable."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/feed.json") as f:
             feed_data = json.load(f)
@@ -307,7 +307,7 @@ class TestFeedMethods:
 
     def test_get_facet_by_title(self):
         """Test getting facet by title."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/feed.json") as f:
             feed_data = json.load(f)
@@ -320,7 +320,7 @@ class TestFeedMethods:
 
     def test_get_publication_image(self):
         """Test getting publication image by type."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with open("tests/fixtures/publication.json") as f:
             pub_data = json.load(f)
@@ -332,7 +332,7 @@ class TestFeedMethods:
         assert jpeg_image.height == 1600
 
 
-class TestOPDSClient:
+class TestOPDS2Client:
     """Tests for OPDS client."""
 
     @patch("requests.Session.get")
@@ -346,7 +346,7 @@ class TestOPDSClient:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        client = OPDSClient()
+        client = OPDS2Client()
         feed = client.fetch_feed("https://example.com/opds")
 
         assert feed.metadata.title == "Test OPDS Feed"
@@ -363,7 +363,7 @@ class TestOPDSClient:
         )
         mock_get.return_value = mock_response
 
-        client = OPDSClient()
+        client = OPDS2Client()
 
         with pytest.raises(OPDSHTTPError) as exc_info:
             client.fetch_feed("https://example.com/opds")
@@ -381,13 +381,13 @@ class TestOPDSClient:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(json.loads(feed_json))
 
         nav_link = feed.navigation[0] if feed.navigation else None
         assert nav_link is not None
 
-        client = OPDSClient()
+        client = OPDS2Client()
         result = client.follow_link(nav_link)
 
         assert result.metadata.title == "Test OPDS Feed"
@@ -403,17 +403,17 @@ class TestOPDSClient:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(json.loads(feed_json))
 
-        client = OPDSClient()
+        client = OPDS2Client()
         results = client.search(feed, "test query")
 
         assert results.metadata.title == "Test OPDS Feed"
 
     def test_search_not_supported(self):
         """Test search when not supported."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_data = {
             "metadata": {"title": "Feed without search"},
@@ -422,7 +422,7 @@ class TestOPDSClient:
         }
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
 
         with pytest.raises(SearchError) as exc_info:
             client.search(feed, "test")
@@ -440,17 +440,17 @@ class TestOPDSClient:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(json.loads(feed_json))
 
-        client = OPDSClient()
+        client = OPDS2Client()
         result = client.follow_navigation(feed, "New Publications")
 
         assert result.metadata.title == "Test OPDS Feed"
 
     def test_navigation_not_found(self):
         """Test navigation when link not found."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_data = {
             "metadata": {"title": "Feed without navigation"},
@@ -459,7 +459,7 @@ class TestOPDSClient:
         }
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
 
         with pytest.raises(OPDSNavigationError) as exc_info:
             client.follow_navigation(feed, "Non-existent")
@@ -468,7 +468,7 @@ class TestOPDSClient:
 
     def test_context_manager(self):
         """Test client as context manager."""
-        with OPDSClient() as client:
+        with OPDS2Client() as client:
             assert client is not None
 
     @patch("requests.Session.get")
@@ -482,7 +482,7 @@ class TestOPDSClient:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        client = OPDSClient(username="user", password="pass")
+        client = OPDS2Client(username="user", password="pass")
         feed = client.fetch_feed("https://example.com/opds")
 
         assert feed.metadata.title == "Test OPDS Feed"
@@ -503,7 +503,7 @@ class TestOPDSClient:
         from requests.auth import HTTPBasicAuth
 
         custom_auth = HTTPBasicAuth("custom", "auth")
-        client = OPDSClient(auth=custom_auth)
+        client = OPDS2Client(auth=custom_auth)
         feed = client.fetch_feed("https://example.com/opds")
 
         assert feed.metadata.title == "Test OPDS Feed"
@@ -513,9 +513,9 @@ class TestOPDSClient:
         """Test origin parameter with relative URL."""
         import json
 
-        from opds_client.opds2.parser import OPDSParser
+        from opds_client.opds2.parser import OPDS2Parser
 
-        OPDSParser()
+        OPDS2Parser()
         feed_data = {
             "metadata": {"title": "Test"},
             "links": [{"rel": "self", "href": "/opds"}],
@@ -529,7 +529,7 @@ class TestOPDSClient:
             mock_response.raise_for_status = Mock()
             mock_get.return_value = mock_response
 
-            client = OPDSClient(origin="https://example.com")
+            client = OPDS2Client(origin="https://example.com")
             client.fetch_feed("/catalog")
 
             called_url = mock_get.call_args[0][0]
@@ -539,9 +539,9 @@ class TestOPDSClient:
         """Test origin parameter with absolute URL (should not merge)."""
         import json
 
-        from opds_client.opds2.parser import OPDSParser
+        from opds_client.opds2.parser import OPDS2Parser
 
-        OPDSParser()
+        OPDS2Parser()
         feed_data = {
             "metadata": {"title": "Test"},
             "links": [{"rel": "self", "href": "/opds"}],
@@ -555,7 +555,7 @@ class TestOPDSClient:
             mock_response.raise_for_status = Mock()
             mock_get.return_value = mock_response
 
-            client = OPDSClient(origin="https://example.com")
+            client = OPDS2Client(origin="https://example.com")
             client.fetch_feed("https://other.com/catalog")
 
             called_url = mock_get.call_args[0][0]
@@ -565,9 +565,9 @@ class TestOPDSClient:
         """Test client without origin parameter (should use URLs as-is)."""
         import json
 
-        from opds_client.opds2.parser import OPDSParser
+        from opds_client.opds2.parser import OPDS2Parser
 
-        OPDSParser()
+        OPDS2Parser()
         feed_data = {
             "metadata": {"title": "Test"},
             "links": [{"rel": "self", "href": "/opds"}],
@@ -581,7 +581,7 @@ class TestOPDSClient:
             mock_response.raise_for_status = Mock()
             mock_get.return_value = mock_response
 
-            client = OPDSClient()
+            client = OPDS2Client()
             client.fetch_feed("/catalog")
 
             called_url = mock_get.call_args[0][0]

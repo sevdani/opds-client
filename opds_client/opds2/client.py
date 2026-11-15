@@ -16,11 +16,11 @@ from opds_client.opds2.exceptions import (
     SearchError,
 )
 from opds_client.opds2.models import Link, OPDSFeed, OPDSPublication
-from opds_client.opds2.parser import OPDSParser, URITemplateResolver
+from opds_client.opds2.parser import OPDS2Parser, URITemplateResolver
 from opds_client.utils import merge_urls
 
 
-class OPDSClient:
+class OPDS2Client:
     """Client for OPDS 2.0 catalogs."""
 
     DEFAULT_HEADERS = {
@@ -37,7 +37,7 @@ class OPDSClient:
         max_retries: int = 3,
         backoff_factor: float = 0.5,
         session: requests.Session | None = None,
-        parser: OPDSParser | None = None,
+        parser: OPDS2Parser | None = None,
         origin: str | None = None,
     ):
         """Initialize OPDS client.
@@ -74,7 +74,7 @@ class OPDSClient:
             self.session.mount("http://", adapter)
             self.session.mount("https://", adapter)
 
-        self.parser = parser or OPDSParser()
+        self.parser = parser or OPDS2Parser()
 
     def _prepare_url(self, url: str) -> str:
         """Prepare URL by merging with origin if needed.
@@ -371,7 +371,7 @@ class OPDSClient:
         """Close the underlying session."""
         self.session.close()
 
-    def __enter__(self) -> "OPDSClient":
+    def __enter__(self) -> "OPDS2Client":
         """Context manager entry."""
         return self
 

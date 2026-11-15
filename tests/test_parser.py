@@ -6,15 +6,15 @@ import pytest
 
 from opds_client.opds2 import URITemplateResolver
 from opds_client.opds2.exceptions import OPDSParseError, OPDSValidationError
-from opds_client.opds2.parser import OPDSParser
+from opds_client.opds2.parser import OPDS2Parser
 
 
-class TestOPDSParser:
+class TestOPDS2Parser:
     """Tests for OPDS parser."""
 
     def test_parse_valid_json_feed(self):
         """Test parsing valid OPDS feed JSON."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_json = json.dumps(
             {
@@ -31,14 +31,14 @@ class TestOPDSParser:
 
     def test_parse_invalid_json(self):
         """Test parsing invalid JSON."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         with pytest.raises(OPDSParseError):
             parser.parse("not valid json")
 
     def test_parse_publication(self):
         """Test parsing publication."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         pub_json = json.dumps(
             {
@@ -60,7 +60,7 @@ class TestOPDSParser:
 
     def test_strict_mode_validation_error(self):
         """Test strict mode raises validation error."""
-        parser = OPDSParser(strict=True)
+        parser = OPDS2Parser(strict=True)
 
         invalid_feed = json.dumps(
             {
@@ -74,7 +74,7 @@ class TestOPDSParser:
 
     def test_non_strict_mode_warnings(self):
         """Test non-strict mode collects warnings."""
-        parser = OPDSParser(strict=False)
+        parser = OPDS2Parser(strict=False)
 
         # Feed with invalid navigation (missing title) but valid publications
         invalid_feed = json.dumps(
@@ -107,7 +107,7 @@ class TestOPDSParser:
 
     def test_parse_feed_with_images(self):
         """Test parsing feed with images."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_json = json.dumps(
             {
@@ -147,7 +147,7 @@ class TestOPDSParser:
 
     def test_parse_facets(self):
         """Test parsing facets."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_json = json.dumps(
             {
@@ -171,7 +171,7 @@ class TestOPDSParser:
 
     def test_parse_groups(self):
         """Test parsing groups."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_json = json.dumps(
             {

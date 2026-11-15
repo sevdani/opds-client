@@ -7,7 +7,7 @@ from opds_client.opds2 import (
     Link,
     Metadata,
     NavigationLink,
-    OPDSClient,
+    OPDS2Client,
     OPDSFeed,
     OPDSPublication,
     Publication,
@@ -28,7 +28,7 @@ from opds_client.opds12.models import (
 from opds_client.opds12.parser import OPDS12Parser
 
 __all__ = [
-    "OPDSClient",
+    "OPDS2Client",
     "Link",
     "Metadata",
     "Publication",

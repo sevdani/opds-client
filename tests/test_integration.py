@@ -6,12 +6,12 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-from opds_client.opds2 import OPDSClient
+from opds_client.opds2 import OPDS2Client
 from opds_client.opds2.exceptions import OPDSHTTPError, OPDSNavigationError, SearchError
-from opds_client.opds2.parser import OPDSParser
+from opds_client.opds2.parser import OPDS2Parser
 
 
-class TestOPDSClientIntegration:
+class TestOPDS2ClientIntegration:
     """Integration tests for OPDS client."""
 
     @patch("requests.Session.get")
@@ -26,7 +26,7 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        client = OPDSClient()
+        client = OPDS2Client()
         feed = client.fetch_feed("https://example.com/opds")
 
         assert feed.metadata.title == "Test OPDS Feed"
@@ -45,7 +45,7 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        client = OPDSClient()
+        client = OPDS2Client()
         pub = client.fetch_publication("https://example.com/publication")
 
         assert pub.metadata.title == "Test Publication"
@@ -62,10 +62,10 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
         nav_link = feed.navigation[0]
         result = client.follow_link(nav_link)
 
@@ -82,10 +82,10 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
         results = client.search(feed, "test query")
 
         assert results.metadata.title == "Test OPDS Feed"
@@ -101,17 +101,17 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
         result = client.follow_navigation(feed, "New Publications")
 
         assert result.metadata.title == "Test OPDS Feed"
 
     def test_search_not_supported(self):
         """Test search when not supported by catalog."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_data = {
             "metadata": {"title": "Feed without search"},
@@ -120,7 +120,7 @@ class TestOPDSClientIntegration:
         }
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
 
         with pytest.raises(SearchError):
             client.search(feed, "test")
@@ -136,10 +136,10 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
         next_feed = client.get_next_page(feed)
 
         assert next_feed is not None
@@ -156,10 +156,10 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
         prev_feed = client.get_previous_page(feed)
 
         assert prev_feed is not None
@@ -176,10 +176,10 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(feed_data)
 
-        OPDSClient()
+        OPDS2Client()
 
         facet = feed.get_facets_by_title("Sort By")
         assert facet is not None
@@ -198,7 +198,7 @@ class TestOPDSClientIntegration:
         mock_response.raise_for_status = Mock()
         mock_get.return_value = mock_response
 
-        parser = OPDSParser()
+        parser = OPDS2Parser()
         feed = parser.parse_dict(feed_data)
 
         assert feed.has_groups() is True
@@ -223,7 +223,7 @@ class TestOPDSClientIntegration:
             )
             mock_get.return_value = mock_response
 
-            client = OPDSClient()
+            client = OPDS2Client()
 
             with pytest.raises(OPDSHTTPError) as exc_info:
                 client.fetch_feed("https://example.com/opds")
@@ -232,7 +232,7 @@ class TestOPDSClientIntegration:
 
     def test_navigation_error(self):
         """Test navigation error handling."""
-        parser = OPDSParser()
+        parser = OPDS2Parser()
 
         feed_data = {
             "metadata": {"title": "Feed without navigation"},
@@ -241,14 +241,14 @@ class TestOPDSClientIntegration:
         }
         feed = parser.parse_dict(feed_data)
 
-        client = OPDSClient()
+        client = OPDS2Client()
 
         with pytest.raises(OPDSNavigationError):
             client.follow_navigation(feed, "Non-existent")
 
     def test_context_manager(self):
         """Test client as context manager."""
-        with OPDSClient() as client:
+        with OPDS2Client() as client:
             assert client is not None
 
     def test_custom_session(self):
@@ -256,10 +256,10 @@ class TestOPDSClientIntegration:
         session = requests.Session()
         session.headers.update({"X-Custom": "value"})
 
-        client = OPDSClient(session=session)
+        client = OPDS2Client(session=session)
         assert client.session == session
 
     def test_no_retries(self):
         """Test client with no retries."""
-        client = OPDSClient(max_retries=0)
+        client = OPDS2Client(max_retries=0)
         assert client is not None

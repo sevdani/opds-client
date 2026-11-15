@@ -19,7 +19,7 @@ from opds_client.opds2.models.feed import Facet, Group, OPDSFeed
 from opds_client.opds2.models.publication import OPDSPublication
 
 
-class OPDSParser:
+class OPDS2Parser:
     """Parser for OPDS 2.0 JSON feeds."""
 
     def __init__(self, strict: bool = True):

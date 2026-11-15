@@ -417,8 +417,8 @@ if buy_link:
 | Feature | OPDS 1.2 | OPDS 2.0 |
 |---------|----------|----------|
 | Format | Atom/XML | JSON |
-| Parser | `OPDS12Parser` | `OPDSParser` |
-| Client | `OPDS12Client` | `OPDSClient` |
+| Parser | `OPDS12Parser` | `OPDS2Parser` |
+| Client | `OPDS12Client` | `OPDS2Client` |
 | Feed Type | `Feed` | `OPDSFeed` |
 | Entry Type | `Entry` | `OPDSPublication` |
 | Metadata | Dublin Core + Atom | JSON-LD (schema.org) |

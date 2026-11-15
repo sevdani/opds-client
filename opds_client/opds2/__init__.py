@@ -2,7 +2,7 @@
 
 from opds_client.utils import merge_urls
 
-from .client import OPDSClient
+from .client import OPDS2Client
 from .exceptions import (
     OPDSHTTPError,
     OPDSNavigationError,
@@ -21,11 +21,11 @@ from .models import (
     OPDSPublication,
     Publication,
 )
-from .parser import OPDSParser, URITemplateResolver
+from .parser import OPDS2Parser, URITemplateResolver
 
 __all__ = [
-    "OPDSClient",
-    "OPDSParser",
+    "OPDS2Client",
+    "OPDS2Parser",
     "OPDSFeed",
     "OPDSPublication",
     "Link",
