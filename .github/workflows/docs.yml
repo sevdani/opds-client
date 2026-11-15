@@ -2,13 +2,6 @@
 name: CI - Documentation
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'opds_client/**/*.py'
   workflow_dispatch:
 
 # Default permissions
