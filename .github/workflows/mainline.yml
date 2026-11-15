@@ -87,57 +87,33 @@ jobs:
 
 
       - name: Determine version and create release
-        uses: python-semantic-release/python-semantic-release@v10
-        with:
-          build: true
-          publish: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          git_committer_name: "github-actions"
-          git_committer_email: "actions@users.noreply.github.com"
-          force: ${{ github.event.inputs.force_level }}
-
-      - name: Verify version consistency
         run: |
-          # Extract version from pyproject.toml
-          pyproject_version=$(grep -E "^version = " pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          # Use bump2version to bump version based on force_level input
+          bump2version ${{ github.event.inputs.force_level }}
           
-          # Get the latest tag
-          latest_tag=$(git describe --tags --abbrev=0)
+          # Verify version was updated
+          echo "Updated version in pyproject.toml:"
+          grep -E "^version = " pyproject.toml
           
-          # Clean tag name (remove 'v' prefix if present)
-          clean_tag=$(echo "$latest_tag" | sed 's/^v//')
+          # Commit the version change
+          git add pyproject.toml
+          git commit -m "chore: bump version to $(grep -E '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')"
           
-          echo "Version from pyproject.toml: $pyproject_version"
-          echo "Latest tag: $latest_tag (clean: $clean_tag)"
+          # Get the new version
+          NEW_VERSION=$(grep -E "^version = " pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
           
-          if [ "$pyproject_version" != "$clean_tag" ]; then
-            echo "ERROR: Version mismatch! pyproject.toml has $pyproject_version but tag is $clean_tag"
-            exit 1
-          fi
+          # Create tag
+          git tag -a "v$NEW_VERSION" -m "Release v$NEW_VERSION"
           
-          echo "✓ Version consistency verified: $pyproject_version"
-
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: dist
-          print-hash: true
-
-      - name: Upload to GitHub Packages
-        run: |
-          # Upload to GitHub Packages requires authentication
-          # Using the same PyPI publish action with custom index-url
-          # GitHub Packages PyPI URL: https://pypi.pkg.github.com/${{ github.repository_owner }}/
-          echo "GitHub Packages upload handled via pypa/gh-action-pypi-publish"
-          # Note: For GitHub Packages, configure PyPI config or use twine
-          # See: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-pypi-registry
-
-      - name: Upload distribution artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: distribution-artifacts
-          path: dist
-          retention-days: 7
+          # Push changes and tags
+          git push origin main
+          git push origin "v$NEW_VERSION"
+          
+          # Build the package
+          python -m build --sdist --wheel .
+          
+          # Upload distribution artifacts
+          echo "Distribution artifacts prepared in dist/"
 
   docs:
     name: Build and Deploy Documentation

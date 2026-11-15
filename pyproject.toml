@@ -33,7 +33,7 @@ docs = [
     "zensical>=0.1.1",
 ]
 release = [
-    "python-semantic-release>=10.0.0",
+    "bump2version>=1.0.0",
     "build>=1.0.0",
 ]
 
@@ -71,26 +71,3 @@ warn_unused_ignores = true
 warn_unreachable = true
 strict_equality = true
 extra_checks = true
-
-[tool.semantic_release]
-version_toml = ["pyproject.toml:project.version"]
-build_command = "python -m build --sdist --wheel ."
-changelog_file = "CHANGELOG.md"
-
-[tool.semantic_release.changelog]
-exclude_commit_patterns = [
-    '''chore(?:\([^)]*?\))?: .+''',
-    '''ci(?:\([^)]*?\))?: .+''',
-    '''refactor(?:\([^)]*?\))?: .+''',
-    '''test(?:\([^)]*?\))?: .+''',
-    '''docs(?:\([^)]*?\))?: .+''',
-]
-
-[tool.semantic_release.branches.main]
-match = "main"
-prerelease = false
-
-[tool.semantic_release.branches.alpha]
-match = "^(feat|fix|perf)/.+"
-prerelease = true
-prerelease_token = "alpha"

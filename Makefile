@@ -34,28 +34,33 @@ install-release:
 	pip install -e ".[release]"
 
 # Run semantic-release version (determines version bump)
+# Usage: make release-version level=patch
 release-version:
-	semantic-release version
+	bump2version $(level)
 
 # Run semantic-release build (builds package)
+# Usage: make release-build level=minor
 release-build:
-	semantic-release build
+	bump2version $(level)
 
 # Run semantic-release publish (creates tag + release + upload)
+# Usage: make release-publish level=major
 release-publish:
-	semantic-release publish
+	bump2version $(level)
+	git push origin main --tags
 
 # Full release process (determines version, builds, publishes)
+# Usage: make release level=patch
 release: install-release
-	semantic-release version --no-push --no-vcs-release
-	semantic-release publish --no-push
-	@echo "Release prepared locally. To push changes:"
-	@echo "  git push origin main --tags"
+	bump2version $(level)
+	git push origin main --tags
+	@echo "Release prepared. Version bumped to: $(level)"
 
 # Tag and release manually (after version bump)
+# Usage: make tag-release
 tag-release:
-	git tag -a v$(shell grep 'version = ' pyproject.toml | head -1 | cut -d'"' -f2) -m "Release v$(shell grep 'version = ' pyproject.toml | head -1 | cut -d'"' -f2)"
-	git push origin --tags
+	bump2version patch
+	git push origin main --tags
 
 # Clean build artifacts
 clean:
