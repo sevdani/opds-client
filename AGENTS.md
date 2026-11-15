@@ -13,36 +13,32 @@ The library provides parsing, navigation, authentication, and acquisition functi
 
 ## Naming Conventions
 
-- **OPDS 2.0 classes**: No version suffix (e.g., `OPDSClient`, `OPDSFeed`, `OPDSPublication`)
-- **OPDS 1.2 classes**: Prefixed with `OPDS12` (e.g., `OPDS12Client`, `OPDS12Feed`, `OPDS12Entry`)
+- **OPDS 2.0 classes**: Prefixed with `OPDS2` (e.g., `OPDS2Client`, `OPDS2Parser`, `OPDSFeed`, `OPDSPublication`)
+- **OPDS 1.2 classes**: Prefixed with `OPDS12` (e.g., `OPDS12Client`, `OPDS12Parser`, `OPDS12Feed`, `OPDS12Entry`)
+
+### Module Structure and API
+
+The library exposes modules in multiple ways for convenience:
+
+- **OPDS 2.0**: Access via `opds_client.opds2`, `opds_client.v2_0`, or top-level `OPDS2*` classes
+- **OPDS 1.2**: Access via `opds_client.opds12`, `opds_client.v1_2`, or top-level `OPDS12*` classes
+
 
 ## How to Work with the Codebase
 
 ### Adding a New Feature
 
 1. **Determine which version(s)** need the feature
-2. **OPDS 2.0**: Add to appropriate model or client method
-3. **OPDS 1.2**: Add to `opds12/` module
+2. **OPDS 2.0**: Add to appropriate model or client method in `opds2/` module
+3. **OPDS 1.2**: Add to appropriate model or client method in `opds12/` module
 4. **Both versions**: Ensure consistent API across both
 
 ### Modifying Parsing Logic
 
-- **OPDS 2.0**: Modify `opds_client/parser.py`
+- **OPDS 2.0**: Modify `opds_client/opds2/parser.py`
 - **OPDS 1.2**: Modify `opds_client/opds12/parser.py`
 - Both use Pydantic models for validation
 
-### Adding Tests
-
-Test structure mirrors the source:
-
-```
-tests/
-├── test_*.py           # OPDS 2.0 tests
-├── opds12/             # OPDS 1.2 tests
-│   ├── test_*.py
-│   └── fixtures/       # XML test fixtures
-└── fixtures/           # JSON test fixtures
-```
 
 ## Development Guidelines
 
