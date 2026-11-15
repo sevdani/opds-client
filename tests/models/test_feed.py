@@ -157,9 +157,7 @@ class TestGroupModel:
     """Tests for Group model."""
 
     def test_group_without_navigation_or_publications(self):
-        """
-        Test group is valid without navigation or publications (per OPDS 2.0 schema).
-        """
+        """Test group is valid without navigation or publications"""
         group = Group(
             metadata=Metadata(title="Group"),
         )

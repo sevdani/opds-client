@@ -1,13 +1,25 @@
 # OPDS Client
 
-<p align="center">
-<img src="./assets/logo.svg" alt="Logo" width="150" />
-</p>
+<div align="center">
+<img src="https://raw.githubusercontent.com/sevdani/opds-client/refs/heads/main/docs/assets/logo.svg" width="150" />
+
+# opds-client
 
 A Python library for working with OPDS catalogs, supporting both [OPDS 1.2](https://specs.opds.io/opds-1.2) (Atom/XML) and [OPDS 2.0](https://specs.opds.io/opds-2.0) (JSON) specifications.
 
+[![PyPI version](https://img.shields.io/pypi/v/opds-client)](https://pypi.org/project/opds-client)
+[![PyPI downloads](https://img.shields.io/pypi/dm/opds-client)](https://pypi.org/project/opds-client)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI - Mainline](https://github.com/sevdani/opds-client/actions/workflows/mainline.yml/badge.svg)](https://github.com/sevdani/opds-client/actions/workflows/mainline.yml)
 [![CI - Features](https://github.com/sevdani/opds-client/actions/workflows/features.yml/badge.svg)](https://github.com/sevdani/opds-client/actions/workflows/features.yml)
+[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+[Features](#features) · [Installation](#installation) · [Quick Start](#quick-start) · [Authentication](#authentication) · [Models](#models) · [Usage Examples](#usage-examples) · [OPDS 1.2 vs OPDS 2.0](#opds-12-vs-opds-20) · [Testing](#testing) · [Project Structure](#project-structure) · [License](#license)
+
+</div>
+
+---
 
 ## Features
 
@@ -428,6 +440,12 @@ pytest --cov=opds_client
 
 # Run type checks
 mypy opds_client
+
+# Run linter
+ruff check .
+
+# Format code
+ruff format .
 ```
 
 ## Project Structure
@@ -488,10 +506,13 @@ tests/
 
 ## License
 
-MIT License - see LICENSE file for details.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ## References
 
+- [PyPI: opds-client](https://pypi.org/project/opds-client)
 - [OPDS 2.0 Specification](https://specs.opds.io/opds-2.0)
 - [OPDS 1.2 Specification](https://specs.opds.io/opds-1.2)
 - [GitHub: sevdani/opds-client](https://github.com/sevdani/opds-client)

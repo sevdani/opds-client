@@ -49,6 +49,9 @@ docs/_build/
 docs/_static/
 docs/_templates/
 
+# MkDocs site (generated documentation)
+site/
+
 # Build artifacts
 *.log
 *.egg-info/
