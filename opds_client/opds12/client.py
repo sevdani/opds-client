@@ -7,7 +7,7 @@ from typing import Optional
 import requests
 from requests.auth import HTTPBasicAuth
 
-from opds_client.exceptions import OPDSHTTPError
+from opds_client.opds12.exceptions import OPDSHTTPError
 from opds_client.opds12.models import Entry, Feed, Link
 from opds_client.opds12.parser import OPDS12Parser
 from opds_client.utils import merge_urls

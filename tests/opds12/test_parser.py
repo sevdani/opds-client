@@ -2,7 +2,7 @@
 
 import pytest
 
-from opds_client.exceptions import OPDSParseError
+from opds_client.opds12.exceptions import OPDSParseError
 from opds_client.opds12.parser import OPDS12Parser
 
 

@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-from opds_client.exceptions import OPDSHTTPError
 from opds_client.opds12.client import OPDS12Client
+from opds_client.opds12.exceptions import OPDSHTTPError
 
 
 class TestOPDS12Client:

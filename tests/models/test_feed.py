@@ -3,7 +3,7 @@
 import pytest
 from pydantic import ValidationError
 
-from opds_client.models import (
+from opds_client.opds2.models import (
     Facet,
     FacetLink,
     Group,

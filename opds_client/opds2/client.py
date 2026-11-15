@@ -8,15 +8,15 @@ import requests
 from requests.adapters import HTTPAdapter, Retry
 from requests.auth import HTTPBasicAuth
 
-from opds_client.exceptions import (
+from opds_client.opds2.exceptions import (
     OPDSHTTPError,
     OPDSNavigationError,
     OPDSParseError,
     OPDSValidationError,
     SearchError,
 )
-from opds_client.models import Link, OPDSFeed, OPDSPublication
-from opds_client.parser import OPDSParser, URITemplateResolver
+from opds_client.opds2.models import Link, OPDSFeed, OPDSPublication
+from opds_client.opds2.parser import OPDSParser, URITemplateResolver
 from opds_client.utils import merge_urls
 
 

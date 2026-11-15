@@ -1,6 +1,6 @@
 """Tests for OPDS exceptions."""
 
-from opds_client.exceptions import (
+from opds_client.opds2.exceptions import (
     InvalidOPDSFeedError,
     OPDSClientError,
     OPDSHTTPError,

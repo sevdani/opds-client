@@ -1,6 +1,6 @@
 """Tests for acquisition models."""
 
-from opds_client.models import (
+from opds_client.opds2.models import (
     AcquisitionFlow,
     AcquisitionLink,
     AcquisitionManager,

@@ -13,7 +13,7 @@ from pydantic import (
     model_validator,
 )
 
-from opds_client.models.base import (
+from opds_client.opds2.models.base import (
     ImageLink,
     IndirectAcquisition,
     Link,

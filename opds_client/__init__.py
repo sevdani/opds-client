@@ -1,13 +1,13 @@
 """OPDS Client Library supporting OPDS 1.2 and OPDS 2.0."""
 
-from opds_client.client import OPDSClient
-from opds_client.models import (
+from opds_client.opds2 import (
     AcquisitionLink,
     Facet,
     Group,
     Link,
     Metadata,
     NavigationLink,
+    OPDSClient,
     OPDSFeed,
     OPDSPublication,
     Publication,

@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 from typing import Any, Optional
 
-from opds_client.exceptions import OPDSParseError, OPDSValidationError
+from opds_client.opds12.exceptions import OPDSParseError, OPDSValidationError
 from opds_client.opds12.models import (
     DublinCoreMetadata,
     Entry,

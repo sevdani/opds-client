@@ -6,14 +6,14 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, model_validator
 
-from opds_client.models.base import (
+from opds_client.opds2.models.base import (
     FacetLink,
     ImageLink,
     Link,
     Metadata,
     NavigationLink,
 )
-from opds_client.models.publication import OPDSPublication
+from opds_client.opds2.models.publication import OPDSPublication
 
 
 class Collection(BaseModel):

@@ -6,9 +6,9 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-from opds_client.client import OPDSClient
-from opds_client.exceptions import OPDSHTTPError, OPDSNavigationError, SearchError
-from opds_client.parser import OPDSParser
+from opds_client.opds2 import OPDSClient
+from opds_client.opds2.exceptions import OPDSHTTPError, OPDSNavigationError, SearchError
+from opds_client.opds2.parser import OPDSParser
 
 
 class TestOPDSClientIntegration:

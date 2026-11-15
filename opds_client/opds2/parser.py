@@ -7,16 +7,16 @@ from typing import Any
 
 from pydantic import ValidationError
 
-from opds_client.exceptions import (
+from opds_client.opds2.exceptions import (
     OPDSParseError,
     OPDSValidationError,
 )
-from opds_client.models.base import (
+from opds_client.opds2.models.base import (
     Link,
     NavigationLink,
 )
-from opds_client.models.feed import Facet, Group, OPDSFeed
-from opds_client.models.publication import OPDSPublication
+from opds_client.opds2.models.feed import Facet, Group, OPDSFeed
+from opds_client.opds2.models.publication import OPDSPublication
 
 
 class OPDSParser:

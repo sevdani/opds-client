@@ -4,8 +4,9 @@ import json
 
 import pytest
 
-from opds_client.exceptions import OPDSParseError, OPDSValidationError
-from opds_client.parser import OPDSParser, URITemplateResolver
+from opds_client.opds2 import URITemplateResolver
+from opds_client.opds2.exceptions import OPDSParseError, OPDSValidationError
+from opds_client.opds2.parser import OPDSParser
 
 
 class TestOPDSParser:

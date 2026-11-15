@@ -6,7 +6,7 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from opds_client.models.base import Link
+from opds_client.opds2.models.base import Link
 
 
 class AcquisitionFlow(BaseModel):

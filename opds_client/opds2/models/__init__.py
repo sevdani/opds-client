@@ -1,10 +1,10 @@
 """Pydantic models exports."""
 
-from opds_client.models.acquisition import (
+from opds_client.opds2.models.acquisition import (
     AcquisitionFlow,
     AcquisitionManager,
 )
-from opds_client.models.base import (
+from opds_client.opds2.models.base import (
     FacetLink,
     ImageLink,
     IndirectAcquisition,
@@ -13,13 +13,13 @@ from opds_client.models.base import (
     NavigationLink,
     Price,
 )
-from opds_client.models.feed import (
+from opds_client.opds2.models.feed import (
     Collection,
     Facet,
     Group,
     OPDSFeed,
 )
-from opds_client.models.publication import (
+from opds_client.opds2.models.publication import (
     AcquisitionLink,
     BelongsTo,
     Contributor,

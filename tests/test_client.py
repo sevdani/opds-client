@@ -6,22 +6,20 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-from opds_client.client import OPDSClient
-from opds_client.exceptions import (
-    OPDSHTTPError,
-    OPDSNavigationError,
-    SearchError,
-)
-from opds_client.models import (
+from opds_client.opds2 import (
     AcquisitionLink,
     Link,
     Metadata,
     NavigationLink,
+    OPDSClient,
     OPDSFeed,
+    OPDSParser,
     OPDSPublication,
     Publication,
+    URITemplateResolver,
 )
-from opds_client.parser import OPDSParser, URITemplateResolver
+from opds_client.opds2.exceptions import OPDSHTTPError, OPDSNavigationError, SearchError
+from opds_client.utils import is_uri_template
 
 
 class TestURITemplateResolver:
@@ -59,7 +57,6 @@ class TestURITemplateResolver:
 
     def test_is_uri_template(self):
         """Test detecting URI templates."""
-        from opds_client.utils import is_uri_template
 
         assert is_uri_template("https://example.com/search{?query}")
         assert not is_uri_template("https://example.com/search")
@@ -516,7 +513,7 @@ class TestOPDSClient:
         """Test origin parameter with relative URL."""
         import json
 
-        from opds_client.parser import OPDSParser
+        from opds_client.opds2.parser import OPDSParser
 
         OPDSParser()
         feed_data = {
@@ -542,7 +539,7 @@ class TestOPDSClient:
         """Test origin parameter with absolute URL (should not merge)."""
         import json
 
-        from opds_client.parser import OPDSParser
+        from opds_client.opds2.parser import OPDSParser
 
         OPDSParser()
         feed_data = {
@@ -568,7 +565,7 @@ class TestOPDSClient:
         """Test client without origin parameter (should use URLs as-is)."""
         import json
 
-        from opds_client.parser import OPDSParser
+        from opds_client.opds2.parser import OPDSParser
 
         OPDSParser()
         feed_data = {
