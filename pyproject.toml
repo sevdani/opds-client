@@ -43,7 +43,7 @@ release = [
 ]
 
 [tool.setuptools]
-packages = ["opds_client", "opds_client.models"]
+packages = ["opds_client", "opds_client.opds2", "opds_client.opds2.models", "opds_client.opds12"]
 
 [tool.black]
 line-length = 88
