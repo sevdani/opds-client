@@ -1,5 +1,7 @@
 """Tests for OPDS 1.2 parser."""
 
+import os
+
 import pytest
 
 from opds_client.opds12.exceptions import OPDSParseError
@@ -13,7 +15,8 @@ class TestOPDS12Parser:
         """Test parsing valid OPDS 1.2 feed."""
         parser = OPDS12Parser()
 
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         feed = parser.parse(feed_xml)
@@ -27,7 +30,8 @@ class TestOPDS12Parser:
         """Test parsing acquisition feed."""
         parser = OPDS12Parser()
 
-        with open("tests/fixtures/opds12/acquisition.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "acquisition.xml")) as f:
             feed_xml = f.read()
 
         feed = parser.parse(feed_xml)
@@ -44,7 +48,8 @@ class TestOPDS12Parser:
         """Test parsing entry with acquisition links."""
         parser = OPDS12Parser()
 
-        with open("tests/fixtures/opds12/acquisition.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "acquisition.xml")) as f:
             feed_xml = f.read()
 
         feed = parser.parse(feed_xml)
@@ -68,7 +73,8 @@ class TestOPDS12Parser:
         """Test parsing facet groups."""
         parser = OPDS12Parser()
 
-        with open("tests/fixtures/opds12/facets.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "facets.xml")) as f:
             feed_xml = f.read()
 
         feed = parser.parse(feed_xml)

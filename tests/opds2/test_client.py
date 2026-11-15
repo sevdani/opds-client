@@ -1,6 +1,7 @@
 """Tests for OPDS 2.0 client."""
 
 import json
+import os
 from unittest.mock import Mock, patch
 
 import pytest
@@ -57,7 +58,6 @@ class TestURITemplateResolver:
 
     def test_is_uri_template(self):
         """Test detecting URI templates."""
-
         assert is_uri_template("https://example.com/search{?query}")
         assert not is_uri_template("https://example.com/search")
 
@@ -198,7 +198,8 @@ class TestFeedParser:
         """Test parsing a valid OPDS feed."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         feed = parser.parse_dict(feed_data)
@@ -213,7 +214,8 @@ class TestFeedParser:
         """Test parsing a publication."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/publication.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "publication.json")) as f:
             pub_data = json.load(f)
 
         pub = parser.parse_publication_dict(pub_data)
@@ -226,7 +228,8 @@ class TestFeedParser:
         """Test parsing facets."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/facets.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "facets.json")) as f:
             feed_data = json.load(f)
 
         feed = parser.parse_dict(feed_data)
@@ -246,7 +249,8 @@ class TestFeedParser:
         """Test parsing groups."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/groups.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "groups.json")) as f:
             feed_data = json.load(f)
 
         feed = parser.parse_dict(feed_data)
@@ -271,7 +275,8 @@ class TestFeedMethods:
         """Test getting link by relation."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         feed = parser.parse_dict(feed_data)
@@ -284,7 +289,8 @@ class TestFeedMethods:
         """Test pagination link methods."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         feed = parser.parse_dict(feed_data)
@@ -298,7 +304,8 @@ class TestFeedMethods:
         """Test checking if feed is searchable."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         feed = parser.parse_dict(feed_data)
@@ -309,7 +316,8 @@ class TestFeedMethods:
         """Test getting facet by title."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         feed = parser.parse_dict(feed_data)
@@ -322,7 +330,8 @@ class TestFeedMethods:
         """Test getting publication image by type."""
         parser = OPDS2Parser()
 
-        with open("tests/fixtures/publication.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "publication.json")) as f:
             pub_data = json.load(f)
 
         pub = parser.parse_publication_dict(pub_data)
@@ -338,7 +347,8 @@ class TestOPDS2Client:
     @patch("requests.Session.get")
     def test_fetch_feed_success(self, mock_get):
         """Test fetching a feed successfully."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_json = f.read()
 
         mock_response = Mock()
@@ -373,7 +383,8 @@ class TestOPDS2Client:
     @patch("requests.Session.get")
     def test_follow_link(self, mock_get):
         """Test following a link."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_json = f.read()
 
         mock_response = Mock()
@@ -395,7 +406,8 @@ class TestOPDS2Client:
     @patch("requests.Session.get")
     def test_search(self, mock_get):
         """Test search functionality."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_json = f.read()
 
         mock_response = Mock()
@@ -432,7 +444,8 @@ class TestOPDS2Client:
     @patch("requests.Session.get")
     def test_navigation_by_title(self, mock_get):
         """Test navigating by title."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_json = f.read()
 
         mock_response = Mock()
@@ -474,7 +487,8 @@ class TestOPDS2Client:
     @patch("requests.Session.get")
     def test_basic_auth(self, mock_get):
         """Test HTTP Basic Auth."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_json = f.read()
 
         mock_response = Mock()
@@ -492,7 +506,8 @@ class TestOPDS2Client:
     @patch("requests.Session.get")
     def test_custom_auth(self, mock_get):
         """Test custom auth object."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_json = f.read()
 
         mock_response = Mock()

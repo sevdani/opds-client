@@ -1,5 +1,6 @@
 """Tests for OPDS 1.2 client."""
 
+import os
 from unittest.mock import Mock, patch
 
 import pytest
@@ -15,7 +16,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_fetch_feed_success(self, mock_get):
         """Test fetching a feed successfully."""
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -51,7 +53,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_fetch_entry(self, mock_get):
         """Test fetching an entry."""
-        with open("tests/fixtures/opds12/acquisition.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "acquisition.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -69,7 +72,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_navigation_links(self, mock_get):
         """Test navigation link parsing."""
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -88,7 +92,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_pagination_links(self, mock_get):
         """Test pagination link parsing."""
-        with open("tests/fixtures/opds12/acquisition.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "acquisition.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -111,7 +116,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_basic_auth(self, mock_get):
         """Test HTTP Basic Auth."""
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -128,7 +134,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_custom_auth(self, mock_get):
         """Test custom auth object."""
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -148,7 +155,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_origin_with_relative_url(self, mock_get):
         """Test origin parameter with relative URL."""
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -165,7 +173,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_origin_with_absolute_url(self, mock_get):
         """Test origin parameter with absolute URL (should not merge)."""
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()
@@ -182,7 +191,8 @@ class TestOPDS12Client:
     @patch("requests.Session.get")
     def test_origin_without_parameter(self, mock_get):
         """Test client without origin parameter (should use URLs as-is)."""
-        with open("tests/fixtures/opds12/root.xml") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "root.xml")) as f:
             feed_xml = f.read()
 
         mock_response = Mock()

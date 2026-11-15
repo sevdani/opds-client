@@ -1,4 +1,4 @@
-"""Tests for OPDS feed models."""
+"""Tests for OPDS 2.0 feed models."""
 
 import pytest
 from pydantic import ValidationError

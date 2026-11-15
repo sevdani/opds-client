@@ -23,7 +23,6 @@ The library exposes modules in multiple ways for convenience:
 - **OPDS 2.0**: Access via `opds_client.opds2`, `opds_client.v2_0`, or top-level `OPDS2*` classes
 - **OPDS 1.2**: Access via `opds_client.opds12`, `opds_client.v1_2`, or top-level `OPDS12*` classes
 
-
 ## How to Work with the Codebase
 
 ### Adding a New Feature
@@ -39,6 +38,12 @@ The library exposes modules in multiple ways for convenience:
 - **OPDS 1.2**: Modify `opds_client/opds12/parser.py`
 - Both use Pydantic models for validation
 
+### Adding Tests
+
+Tests follow the same structure as the source code:
+
+- **OPDS 2.0 tests**: Add to `tests/opds2/`
+- **OPDS 1.2 tests**: Add to `tests/opds12/`
 
 ## Development Guidelines
 
@@ -61,7 +66,7 @@ pytest --cov=opds_client
 mypy opds_client
 
 # Run specific test file
-pytest tests/test_client.py
+pytest tests/opds2/test_client.py
 ```
 
 ## Linting and Formatting

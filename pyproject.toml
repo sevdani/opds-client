@@ -52,6 +52,7 @@ target-version = ['py310']
 [tool.ruff]
 line-length = 88
 target-version = "py310"
+[tool.ruff.lint]
 select = ["E", "F", "W", "I"]
 
 [tool.pytest.ini_options]
@@ -74,7 +75,7 @@ warn_redundant_casts = true
 warn_unused_ignores = true
 warn_unreachable = true
 strict_equality = true
-strict_concatenate = true
+extra_checks = true
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]

@@ -1,6 +1,7 @@
 """Tests for OPDS client integration."""
 
 import json
+import os
 from unittest.mock import Mock, patch
 
 import pytest
@@ -18,7 +19,8 @@ class TestOPDS2ClientIntegration:
     def test_fetch_feed(self, mock_get):
         """Test fetching an OPDS feed."""
 
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
@@ -37,7 +39,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_fetch_publication(self, mock_get):
         """Test fetching an OPDS publication."""
-        with open("tests/fixtures/publication.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "publication.json")) as f:
             pub_data = json.load(f)
 
         mock_response = Mock()
@@ -54,7 +57,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_follow_navigation_link(self, mock_get):
         """Test following a navigation link."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
@@ -74,7 +78,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_search_catalog(self, mock_get):
         """Test searching the catalog."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
@@ -93,7 +98,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_navigation_by_title(self, mock_get):
         """Test navigating by title."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
@@ -128,7 +134,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_pagination_next_link(self, mock_get):
         """Test pagination with next link."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
@@ -148,7 +155,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_pagination_previous_link(self, mock_get):
         """Test pagination with previous link."""
-        with open("tests/fixtures/feed.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "feed.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
@@ -168,7 +176,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_facet_navigation(self, mock_get):
         """Test navigating facets."""
-        with open("tests/fixtures/facets.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "facets.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
@@ -190,7 +199,8 @@ class TestOPDS2ClientIntegration:
     @patch("requests.Session.get")
     def test_groups_navigation(self, mock_get):
         """Test navigating groups."""
-        with open("tests/fixtures/groups.json") as f:
+        fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+        with open(os.path.join(fixtures_dir, "groups.json")) as f:
             feed_data = json.load(f)
 
         mock_response = Mock()
