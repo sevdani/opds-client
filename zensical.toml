@@ -1,0 +1,37 @@
+[project]
+site_name = "OPDS Client"
+site_description = "Python library for working with OPDS catalogs"
+site_url = "https://sevdani.github.io/opds-client"
+
+repo_url = "https://github.com/sevdani/opds-client"
+edit_uri = "edit/main/docs/"
+
+docs_dir = "docs"
+site_dir = "site"
+
+[project.theme]
+variant = "classic"
+logo = "assets/logo-white.svg"
+favicon = "assets/favicon.ico"
+language = "en"
+
+[project.theme.features]
+indexes = true
+sections = true
+expand = true
+toc_integrate = true
+search_suggest = true
+search_highlight = true
+
+[project.theme.palette]
+default = { primary = "indigo", accent = "indigo" }
+slate = { primary = "indigo", accent = "indigo" }
+
+[project.extra]
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/sevdani/opds-client"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/python"
+link = "https://pypi.org/project/opds-client"
