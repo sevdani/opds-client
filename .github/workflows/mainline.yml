@@ -87,24 +87,21 @@ jobs:
 
       - name: Bump version and create tag
         run: |
+          # Fetch all tags first
+          git fetch --tags
+          
           # Use bump2version to bump version based on force_level input
-          bump2version ${{ github.event.inputs.force_level }}
+          # Use --allow-dirty to force bump even if git thinks we're clean
+          bump2version --allow-dirty ${{ github.event.inputs.force_level }}
           
           # Verify version was updated
           echo "Updated version in pyproject.toml:"
           grep -E "^version = " pyproject.toml
           
-          # Commit the version change
-          git add pyproject.toml
-          git commit -m "chore: bump version to $(grep -E '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')"
-          
-          # Get the new version
+          # Get the new version (from bump2version output or from file)
           NEW_VERSION=$(grep -E "^version = " pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
           
-          # Create tag
-          git tag -a "v$NEW_VERSION" -m "Release v$NEW_VERSION"
-          
-          # Push changes and tags
+          # Push changes and tags (bump2version already committed)
           git push origin main
           git push origin "v$NEW_VERSION"
 
